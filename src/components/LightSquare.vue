@@ -3,20 +3,18 @@
 </script>
 
 <template>
-    <div>
+    <div class="container__lightSquare">
         
     </div>
 </template>
 
 <style scoped>
-    div {
+    .container__lightSquare {
         width: 609px;
         height: 599px;
         top: 31px;
         left: 31px;
-        gap: 0px;
-        opacity: 0px;
-        background-color: blue;
+        background-color: #F7F7F7;
     }
 
 </style>
