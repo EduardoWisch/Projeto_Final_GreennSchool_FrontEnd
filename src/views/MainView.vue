@@ -1,15 +1,18 @@
 <script>
-  import MyHeader from '@/components/MyHeader.vue'
+  import Navbar from '@/components/Navbar.vue'
+  import VerticalNavbar from '@/components/VerticalNavbar.vue'
 
   export default {
     components: {
-      MyHeader
+      Navbar,
+      VerticalNavbar
     }
   }
 </script>
 
 <template>
-    <MyHeader />
+    <Navbar />
+    <VerticalNavbar />
 </template>
 
 <style>
