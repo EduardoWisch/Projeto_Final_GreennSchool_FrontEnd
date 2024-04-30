@@ -44,17 +44,29 @@
             <i class="bi bi-calendar4"></i>
             <i class="bi bi-trash"></i>
         </div>
-  
     </div>
+    
+    <div class="mySubtasks">
+      
+      <div v-for="subtask in task.subtasks" :key="subtask.id" class="mySubtask">
+          <div></div>
+            <input type="checkbox">
+            <p>{{ subtask.title }}</p>
+
+      </div>
+      
+    </div>
+
   </div>
 </template>
 
 <style scoped>
   .myTasks {
   display: grid;
-  grid-template-columns: 5% 80% 1fr;
+  grid-template-columns: 5% 80% 15%;
   border: 1px solid #E5E5E5;
   padding: 1em;
+  margin-top: 5%;
 
 }
 
@@ -95,4 +107,28 @@
   justify-content: flex-start;
   gap: 20%;
 }
+
+.mySubtasks {
+  border: 1px solid #E5E5E5;
+  /* display: grid;
+  grid-template-columns: 5% 85%; */
+}
+
+.mySubtask {
+  display: flex;
+  gap: 5%;
+  margin: 1% 0 1% 2.5%;
+}
+
+.mySubtask input {
+  transform: scale(1.5);
+}
+
+.mySubtask p{
+  white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
+  overflow: hidden; /* Oculta qualquer texto que não caiba */
+  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+}
+
+
 </style>
