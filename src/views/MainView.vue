@@ -6,23 +6,6 @@
   
 
   export default {
-    data() {
-      return {
-        tasks: []
-        
-      }
-    },
-    methods: {
-      getTasks(){
-        axios.get('task')
-        .then(response => this.tasks = response.data.data)
-      }
-    },
-    mounted() {
-      axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-
-      this.getTasks()
-    },
     components: {
       Navbar,
       VerticalNavbar,
@@ -37,12 +20,13 @@
     <div class="container__tasks">
       <h1>Entrada</h1>
       <!-- <MyTasks /> -->
-      <div v-for="task in tasks" :key="task.id">
+      <!-- <div v-for="task in tasks" :key="task.id">
         <p>{{ task.title }}</p>
         <div v-for="subtask in task.subtasks" :key="subtask.id">
           <p>{{ subtask.title }}</p>
         </div>
-      </div>
+      </div> -->
+      <MyTasks />
     </div>
 </template>
 

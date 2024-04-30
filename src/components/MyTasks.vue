@@ -1,30 +1,52 @@
 <script>
+  import axios from 'axios';
 
+  export default {
+    data() {
+        return {
+          tasks: []
+          
+        }
+      },
+      methods: {
+        getTasks(){
+          axios.get('task')
+          .then(response => this.tasks = response.data.data)
+        }
+      },
+      mounted() {
+        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+  
+        this.getTasks()
+      },
+  }
 </script>
 
 <template>
-<div class="myTasks">
-
-    <div class="container__checkbox">
-        <input type="checkbox">
-    </div>
-
-    <div class="myTask">
-        <h4>Tarefa a fazer</h4>
-        <p>Descrição da tarefa, preciso de uma descrição longa para exemplo</p>
-        <div class="taskDate">
-            <i class="bi bi-calendar4"></i>
-            <p>10/40/2024</p>
+  <div v-for="task in tasks" :key="task.id">
+    <div class="myTasks">
+  
+        <div class="container__checkbox">
+            <input type="checkbox">
         </div>
+        
+        <div class="myTask">
+            <h4>{{ task.title }}</h4>
+            <p>{{task.description}}</p>
+            <div class="taskDate">
+                <i class="bi bi-calendar4"></i>
+                <p>{{task.due_date}}</p>
+            </div>
+        </div>
+  
+        <div class="container__icons">
+            <i class="bi bi-pencil"></i>
+            <i class="bi bi-calendar4"></i>
+            <i class="bi bi-trash"></i>
+        </div>
+  
     </div>
-
-    <div class="container__icons">
-        <i class="bi bi-pencil"></i>
-        <i class="bi bi-calendar4"></i>
-        <i class="bi bi-trash"></i>
-    </div>
-
-</div>
+  </div>
 </template>
 
 <style scoped>
