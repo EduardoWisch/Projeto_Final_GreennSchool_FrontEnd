@@ -1,0 +1,76 @@
+<script>
+
+</script>
+
+<template>
+<div class="myTasks">
+
+    <div class="container__checkbox">
+        <input type="checkbox">
+    </div>
+
+    <div class="myTask">
+        <h4>Tarefa a fazer</h4>
+        <p>Descrição da tarefa, preciso de uma descrição longa para exemplo</p>
+        <div class="taskDate">
+            <i class="bi bi-calendar4"></i>
+            <p>10/40/2024</p>
+        </div>
+    </div>
+
+    <div class="container__icons">
+        <i class="bi bi-pencil"></i>
+        <i class="bi bi-calendar4"></i>
+        <i class="bi bi-trash"></i>
+    </div>
+
+</div>
+</template>
+
+<style scoped>
+  .myTasks {
+  display: grid;
+  grid-template-columns: 5% 80% 1fr;
+  border: 1px solid #E5E5E5;
+  padding: 1em;
+
+}
+
+.container__checkbox input {
+  border-radius: 100%;
+  transform: scale(1.5);
+}
+
+.myTask{
+  white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
+  overflow: hidden; /* Oculta qualquer texto que não caiba */
+  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+}
+
+.myTask h4 {
+  font-size: 20px;
+  margin-bottom: 3%;
+}
+
+.myTask p {
+  font-size: 16px;
+  margin-bottom: 3%;
+}
+
+.taskDate{
+  display: flex;
+  gap: 3%;
+}
+
+.taskDate p{
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.container__icons{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20%;
+}
+</style>
