@@ -27,7 +27,31 @@
           .catch(error => {
             console.error('Erro ao deletar a tarefa:', error);
           });
+        },
+        updateTask(task) {
+  // Invertendo o status atual
+        const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+
+  // Verificando se o novo status é válido
+        if (newStatus !== 'completed' && newStatus !== 'pending') {
+          console.error('Novo status inválido:', newStatus);
+          return;
         }
+
+  // Atualização otimista
+        task.status = newStatus;
+
+        // Enviando a solicitação de atualização para o servidor
+        axios.put(`task/${task.id}`, { status: newStatus })
+          .then(() => {
+            // Atualização bem-sucedida, nada precisa ser feito aqui
+          })
+          .catch(error => {
+            // Se houver um erro, reverta a atualização
+            console.error('Erro ao atualizar a tarefa:', error);
+            task.status = task.status === 'completed' ? 'pending' : 'completed';
+          });
+}
       },
       mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
@@ -42,7 +66,8 @@
     <div class="myTasks">
   
         <div class="container__checkbox">
-            <input type="checkbox">
+            <i class="bi bi-circle" @click="updateTask(task)" v-if="task.status == 'pending'"></i>
+            <i class="bi bi-check-circle-fill" @click="updateTask(task)" v-else></i>
         </div>
         
         <div class="myTask">
@@ -65,7 +90,7 @@
       
       <div v-for="subtask in task.subtasks" :key="subtask.id" class="mySubtask">
           <div></div>
-            <input type="checkbox">
+          <i class="bi bi-circle"></i>
             <p>{{ subtask.title }}</p>
       </div>
     </div>
@@ -87,9 +112,8 @@
 
 }
 
-.container__checkbox input {
-  border-radius: 100%;
-  transform: scale(1.5);
+.container__checkbox i {
+  cursor: pointer;
 }
 
 .myTask{
@@ -141,8 +165,8 @@
   margin: 1% 0 1% 2.5%;
 }
 
-.mySubtask input {
-  transform: scale(1.5);
+.mySubtask i {
+  cursor: pointer;
 }
 
 .mySubtask p{
