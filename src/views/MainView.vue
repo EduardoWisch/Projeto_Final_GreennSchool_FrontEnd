@@ -19,13 +19,6 @@
     <VerticalNavbar />
     <div class="container__tasks">
       <h1>Entrada</h1>
-      <!-- <MyTasks /> -->
-      <!-- <div v-for="task in tasks" :key="task.id">
-        <p>{{ task.title }}</p>
-        <div v-for="subtask in task.subtasks" :key="subtask.id">
-          <p>{{ subtask.title }}</p>
-        </div>
-      </div> -->
       <MyTasks />
     </div>
 </template>
