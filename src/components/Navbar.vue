@@ -18,12 +18,14 @@
 
 <style scoped>
     .container__navbar{
+        position: fixed;
         display: flex;
         justify-content: space-between;
         padding: 1% 5%;
         background-color: black;
         width: 100vw;
         height: 10vh;
+        top: 0;
     }
     .bi {
         font-size: 25px;

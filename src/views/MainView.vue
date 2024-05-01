@@ -41,6 +41,7 @@
   font-size: 24px;
   font-weight: 800;
   color: black;
+  margin-top: 15%;
   margin-bottom: 5%;
 }
 

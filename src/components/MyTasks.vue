@@ -1,5 +1,6 @@
 <script>
   import axios from 'axios';
+  import {ref} from 'vue';
 
   export default {
     data() {
@@ -10,6 +11,7 @@
       },
       methods: {
         getTasks(){
+          const tasks = ref()
           axios.get('task')
           .then(response => this.tasks = response.data.data)
         }
