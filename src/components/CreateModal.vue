@@ -7,12 +7,27 @@
                 taskData: {title: '', description: '', due_date: ''}
             }
         },
+        // watch: {
+        //     showModal(newValue) {
+
+        //     }
+        // },
+        props: {
+            showModal: {
+                type: Boolean,
+                required: true
+            }
+        },
         methods: {
-        createTask(){
-          axios.post('task', this.taskData)
-          .then((response) => console.log (response))
-        }
-      },
+            close() {
+                this.$emit('closeModal')
+            },
+
+            createTask(){
+                axios.post('task', this.taskData)
+                .then((response) => console.log (response))
+            }
+        },
         mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
   
@@ -22,7 +37,7 @@
 </script>
 
 <template>
-    <div class="container__createModal">
+    <div class="container__createModal" v-if="showModal">
         <div class="createModal">
             <form @submit.prevent="createTask">
                 <div class="container__inputs">
@@ -31,7 +46,7 @@
                     <input type="date" id="due_date" name="due_date" placeholder="Selecione uma data" v-model="taskData.due_date">
                 </div>
                 <div class="container__butons">
-                    <button id="createCancel">Cancelar</button>
+                    <div id="createCancel" @click="close()">Cancelar</div>
                     <button id="createCreate">Criar tarefa</button>
                 </div>
             </form>
@@ -93,7 +108,7 @@
     border-top: 2px solid #E5E5E5;
 }
 
-.container__butons button {
+.container__butons button, .container__butons div {
     padding: 1.5% 4%;
     border: none;
     font-weight: 600;
