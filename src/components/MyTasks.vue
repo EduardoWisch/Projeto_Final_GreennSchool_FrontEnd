@@ -10,10 +10,23 @@
         }
       },
       methods: {
-        getTasks(){
-          const tasks = ref()
-          axios.get('task')
-          .then(response => this.tasks = response.data.data)
+        open() {
+                this.$emit('openModal')
+        },
+        getTasks() {
+      axios.get('task')
+        .then(response => {
+          this.tasks = response.data.data;
+        })
+        .catch(error => {
+          console.error('Erro ao obter as tarefas:', error);
+        });
+    },
+        deleteTask(id){
+          axios.delete(`task/${id}`)
+          .catch(error => {
+            console.error('Erro ao deletar a tarefa:', error);
+          });
         }
       },
       mounted() {
@@ -44,7 +57,7 @@
         <div class="container__icons">
             <i class="bi bi-pencil"></i>
             <i class="bi bi-calendar4"></i>
-            <i class="bi bi-trash"></i>
+            <i class="bi bi-trash" @click="deleteTask(task.id)"></i>
         </div>
     </div>
     
@@ -54,11 +67,13 @@
           <div></div>
             <input type="checkbox">
             <p>{{ subtask.title }}</p>
-
       </div>
-      
     </div>
+  </div>
 
+  <div class="container__createTask" @click="open()">
+    <i class="bi bi-plus-lg"></i>
+    <p>Criar tarefa</p>
   </div>
 </template>
 
@@ -110,6 +125,10 @@
   gap: 20%;
 }
 
+.container__icons i {
+  cursor: pointer;
+}
+
 .mySubtasks {
   border: 1px solid #E5E5E5;
   /* display: grid;
@@ -130,6 +149,15 @@
   white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
   overflow: hidden; /* Oculta qualquer texto que não caiba */
   text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+}
+
+.container__createTask{
+  display: flex;
+  gap: 2.5%;
+  border: 1px solid #E5E5E5;
+  padding: 2% 0% 2% 1.5%;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 

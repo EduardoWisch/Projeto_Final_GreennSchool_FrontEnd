@@ -4,7 +4,7 @@
     export default {
         data() {
             return {
-                taskData: {title: '', description: '', due_date: ''}
+                taskData: {title: '', description: '', due_date: ''},
             }
         },
         // watch: {
@@ -16,7 +16,7 @@
             showModal: {
                 type: Boolean,
                 required: true
-            }
+            },
         },
         methods: {
             close() {
@@ -62,7 +62,8 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* backdrop-filter: blur(1px); */
     display: flex;
     align-items: center;
     justify-content: center;
