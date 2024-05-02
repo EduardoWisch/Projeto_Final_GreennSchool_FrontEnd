@@ -28,6 +28,12 @@
             console.error('Erro ao deletar a tarefa:', error);
           });
         },
+        deleteSubtask(id){
+          axios.delete(`subtask/${id}`)
+          .catch(error => {
+            console.error('Erro ao deletar a subtarefa:', error);
+          });
+        },
         updateTask(task) {
   // Invertendo o status atual
         const newStatus = task.status === 'completed' ? 'pending' : 'completed';
@@ -116,7 +122,14 @@
           <div></div>
           <i class="bi bi-circle" @click="updateSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
           <i class="bi bi-check-circle-fill" @click="updateSubtask(subtask)" v-else></i>
+            
+          <div class="mySubtask-titles">
             <p>{{ subtask.title }}</p>
+            <div class="mySubtask-container__icons">
+              <i class="bi bi-pencil"></i>
+              <i class="bi bi-trash" @click="deleteSubtask(subtask.id)"></i>
+            </div>
+          </div>
       </div>
     </div>
   </div>
@@ -190,15 +203,32 @@
   margin: 1% 0 1% 2.5%;
 }
 
-.mySubtask i {
+.mySubtask-titles{
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mySubtask-title i {
   cursor: pointer;
 }
 
-.mySubtask p{
+.mySubtask-title p{
   white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
   overflow: hidden; /* Oculta qualquer texto que não caiba */
   text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
 }
+
+.mySubtask-container__icons {
+  display: flex;
+  gap: 50%;
+}
+
+.mySubtask-container__icons i {
+  cursor: pointer;;
+}
+
+
 
 .container__createTask{
   display: flex;
