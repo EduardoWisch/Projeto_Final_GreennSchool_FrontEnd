@@ -51,6 +51,30 @@
             console.error('Erro ao atualizar a tarefa:', error);
             task.status = task.status === 'completed' ? 'pending' : 'completed';
           });
+},
+        updateSubtask(subtask) {
+  // Invertendo o status atual
+        const newStatus = subtask.status === 'completed' ? 'pending' : 'completed';
+
+  // Verificando se o novo status é válido
+        if (newStatus !== 'completed' && newStatus !== 'pending') {
+          console.error('Novo status inválido:', newStatus);
+          return;
+        }
+
+  // Atualização otimista
+        subtask.status = newStatus;
+
+        // Enviando a solicitação de atualização para o servidor
+        axios.put(`subtask/${subtask.id}`, { status: newStatus })
+          .then(() => {
+            // Atualização bem-sucedida, nada precisa ser feito aqui
+          })
+          .catch(error => {
+            // Se houver um erro, reverta a atualização
+            console.error('Erro ao atualizar a tarefa:', error);
+            subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
+          });
 }
       },
       mounted() {
@@ -90,7 +114,8 @@
       
       <div v-for="subtask in task.subtasks" :key="subtask.id" class="mySubtask">
           <div></div>
-          <i class="bi bi-circle"></i>
+          <i class="bi bi-circle" @click="updateSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
+          <i class="bi bi-check-circle-fill" @click="updateSubtask(subtask)" v-else></i>
             <p>{{ subtask.title }}</p>
       </div>
     </div>
