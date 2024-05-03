@@ -1,7 +1,7 @@
 <script>
   import Navbar from '@/components/Navbar.vue'
   import VerticalNavbar from '@/components/VerticalNavbar.vue'
-  import MyTasks from '@/components/MyTasks.vue';
+  import TasksAndSubtasks from '@/components/TasksAndSubtasks.vue';
   import CreateModal from '@/components/CreateModal.vue';
   import axios from 'axios';
   
@@ -10,7 +10,7 @@
     components: {
       Navbar,
       VerticalNavbar,
-      MyTasks,
+      TasksAndSubtasks,
       CreateModal
     },
     data() {
@@ -38,7 +38,7 @@
 
     <div class="container__tasks">
       <h1>Entrada</h1>
-      <MyTasks @openModal="modalIsOpen"/>
+      <TasksAndSubtasks @openModal="modalIsOpen"/>
     </div>
 
     <CreateModal v-model:showModal="showModal" @closeModal="modalIsClosed"/>
