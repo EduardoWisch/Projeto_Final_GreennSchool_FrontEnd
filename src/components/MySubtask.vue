@@ -2,6 +2,11 @@
 import axios from 'axios';
 
     export default {
+        data() {
+            return {
+                isSubtaskHover: false
+            }
+        },
         props: {
             subtask: {
                 type: Object,
@@ -9,6 +14,12 @@ import axios from 'axios';
                 }
             },
         methods: {
+            subtaskHover() {
+                this.isSubtaskHover = true
+            },
+            subtaskNotHover() {
+                this.isSubtaskHover = false
+            },
             deleteSubtask(id){
                 axios.delete(`subtask/${id}`)
                 .then (() => {
@@ -46,14 +57,14 @@ import axios from 'axios';
 </script>
 
 <template>
-    <div class="mySubtasks">
+    <div class="mySubtasks" @mouseover="subtaskHover()" @mouseout="subtaskNotHover()">
             <div></div>
             <i class="bi bi-circle" @click="updateSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
             <i class="bi bi-check-circle-fill" @click="updateSubtask(subtask)" v-else></i>
             
             <div class="mySubtask-titles">
                 <p>{{ subtask.title }}</p>
-                <div class="mySubtask-container__icons">
+                <div class="mySubtask-container__icons" v-show="isSubtaskHover">
                     <i class="bi bi-pencil"></i>
                     <i class="bi bi-trash" @click="deleteSubtask(subtask.id)"></i>
                 </div>
@@ -69,7 +80,7 @@ import axios from 'axios';
   justify-content: space-between;
 }
 
-.mySubtask-title i {
+.mySubtask i {
   cursor: pointer;
 }
 
@@ -82,9 +93,5 @@ import axios from 'axios';
 .mySubtask-container__icons {
   display: flex;
   gap: 50%;
-}
-
-.mySubtask-container__icons i {
-  cursor: pointer;;
 }
 </style>

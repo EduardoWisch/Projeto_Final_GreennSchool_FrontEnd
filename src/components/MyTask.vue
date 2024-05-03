@@ -3,6 +3,11 @@ import axios from 'axios';
 import MySubtask from '@/components/MySubtask.vue'
 
     export default {
+        data() {
+            return {
+                isTaskHover: false
+            }
+        },
         props: {
             task: {
             type: Object,
@@ -10,6 +15,12 @@ import MySubtask from '@/components/MySubtask.vue'
             }
         },
         methods: {
+            taskHover() {
+                this.isTaskHover = true
+            },
+            taskNotHover() {
+                this.isTaskHover = false
+            },
             deleteTask(id){
                 axios.delete(`task/${id}`)
                 .then(() => {
@@ -50,7 +61,7 @@ import MySubtask from '@/components/MySubtask.vue'
 
 <template>
 
-<div class="myTasks">
+<div class="myTasks" @mouseover="taskHover()" @mouseout="taskNotHover()"> 
     <div class="container__checkbox">
         <i class="bi bi-circle" @click="updateTask(task)" v-if="task.status == 'pending'"></i>
         <i class="bi bi-check-circle-fill" @click="updateTask(task)" v-else></i>
@@ -63,7 +74,7 @@ import MySubtask from '@/components/MySubtask.vue'
             <p>{{task.due_date}}</p>
         </div>
     </div>
-    <div class="container__icons">
+    <div class="container__icons" v-show="isTaskHover">
       <i class="bi bi-pencil"></i>
       <i class="bi bi-calendar4"></i>
       <i class="bi bi-trash" @click="deleteTask(task.id)"></i>
