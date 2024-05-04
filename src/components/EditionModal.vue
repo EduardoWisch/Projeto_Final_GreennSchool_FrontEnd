@@ -22,6 +22,9 @@ import axios from 'axios';
             },
         },
         methods: {
+            refresh(){
+                this.$emit('refreshTask')
+            },
             closeEdition() {
                 this.$emit('closeEditionModal')
                 console.log('até aqui está certo')
@@ -37,6 +40,7 @@ import axios from 'axios';
                 .then(response => {
                     console.log('Tarefa editada com sucesso:', response.data);
                     // Emitir evento para fechar o modal de edição
+                    this.refresh()
                     this.$emit('closeEditionModal');
                     // Limpar os campos do formulário de edição
                     this.clearEditedTask();

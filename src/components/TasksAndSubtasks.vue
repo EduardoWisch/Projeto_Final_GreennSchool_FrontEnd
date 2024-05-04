@@ -42,7 +42,7 @@
 </script>
 
 <template>
-    <MyTask v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)"/>
+    <MyTask v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @refreshTask="getTasks()"/>
   <div class="container__createTask" @click="open()">
     <i class="bi bi-plus-lg"></i>
     <p>Criar tarefa</p>

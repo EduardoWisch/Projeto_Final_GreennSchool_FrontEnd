@@ -14,6 +14,9 @@ import axios from 'axios';
                 }
             },
         methods: {
+            refresh(){
+                this.$emit('refreshTask')
+            },
             subtaskHover() {
                 this.isSubtaskHover = true
             },
@@ -24,12 +27,13 @@ import axios from 'axios';
                 axios.delete(`subtask/${id}`)
                 .then (() => {
                     console.log('Subtarefa deletada')
+                    this.refresh()
                 })
                 .catch(error => {
                     console.error('Erro ao deletar a subtarefa:', error);
                 });
             },
-            updateSubtask(subtask) {
+            updateStatusSubtask(subtask) {
 // Invertendo o status atual
                 const newStatus = subtask.status === 'completed' ? 'pending' : 'completed';
 
@@ -59,8 +63,8 @@ import axios from 'axios';
 <template>
     <div class="mySubtasks" @mouseover="subtaskHover()" @mouseout="subtaskNotHover()">
             <div></div>
-            <i class="bi bi-circle" @click="updateSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
-            <i class="bi bi-check-circle-fill" @click="updateSubtask(subtask)" v-else></i>
+            <i class="bi bi-circle" @click="updateStatusSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
+            <i class="bi bi-check-circle-fill" @click="updateStatusSubtask(subtask)" v-else></i>
             
             <div class="mySubtask-titles">
                 <p>{{ subtask.title }}</p>
