@@ -24,6 +24,7 @@
             createTask(){
                 axios.post('task', this.taskData)
                 .then((response) => console.log (response))
+                this.$emit('closeCreateModal')
             }
         },
         mounted() {
