@@ -1,6 +1,17 @@
 <script>
     export default {
+        data() {
+            return {
+                isCreateHover: false
+            }
+        },
         methods: {
+            createHover(){
+                this.isCreateHover = true
+            },
+            createNotHover(){
+                this.isCreateHover = false
+            },
             open() {
                 this.$emit('openModal')
             }
@@ -14,9 +25,9 @@
             <img class="rockImg" src="./icons/rock.png">
         </div>
         <div class="container__icons" >
-            <div class="container__createTask" @click="open()">
+            <div class="container__createTask" @click="open()" @mouseover="createHover()" @mouseout="createNotHover()">
                 <i class="bi bi-plus-lg"></i>
-                <p class="bi">Criar tarefa</p>
+                <p class="bi" v-show="isCreateHover">Criar tarefa</p>
             </div>
             <i class="bi bi-question-circle"></i>
             <i class="bi bi-bell"></i>
@@ -47,11 +58,13 @@
     }
 
     .container__icons{
-        display: flex;
+        display: grid;
+        width: 20%;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         margin: auto 0;
         align-items: center;
         justify-content: flex-end;
-        gap: 30%;
+        gap: 25%;
     }
 
     .container__createTask{

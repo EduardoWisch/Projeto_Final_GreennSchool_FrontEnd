@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import {format} from 'date-fns'
 import MySubtask from '@/components/MySubtask.vue'
 
     export default {
@@ -20,6 +21,9 @@ import MySubtask from '@/components/MySubtask.vue'
             },
             taskNotHover() {
                 this.isTaskHover = false
+            },
+            formatDate(date) {
+                return format(new Date(date), 'dd/MM/yyyy');
             },
             deleteTask(id){
                 axios.delete(`task/${id}`)
@@ -71,7 +75,7 @@ import MySubtask from '@/components/MySubtask.vue'
         <p>{{task.description}}</p>
         <div class="taskDate">
             <i class="bi bi-calendar4"></i>
-            <p>{{task.due_date}}</p>
+            <p>{{formatDate(task.due_date)}}</p>
         </div>
     </div>
     <div class="container__icons" v-show="isTaskHover">

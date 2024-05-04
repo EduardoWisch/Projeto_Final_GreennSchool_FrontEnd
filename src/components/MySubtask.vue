@@ -75,7 +75,7 @@ import axios from 'axios';
 <style scoped>
 
 .mySubtask-titles{
-  width: 80%;
+  width: 84%;
   display: flex;
   justify-content: space-between;
 }
@@ -92,6 +92,6 @@ import axios from 'axios';
 
 .mySubtask-container__icons {
   display: flex;
-  gap: 50%;
+  gap: 40%;
 }
 </style>
