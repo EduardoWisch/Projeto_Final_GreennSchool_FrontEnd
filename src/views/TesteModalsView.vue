@@ -1,27 +1,36 @@
 <script>
     import CreateModal from '@/components/CreateModal.vue'
+    import EditionModal from '@/components/EditionModal.vue'
 
     export default {
         data() {
             return {
-                showModal: false
+                showCreateModal: false,
+                showEditionModal: false
             }
         },
         methods: {
-            modalIsClosed() {
+            createModalIsClosed() {
                 console.log('O modal está fechado')
-                this.showModal = false
+                this.showCreateModal = false
+            },
+            editionModalIsClosed() {
+                console.log('O modal está fechado')
+                this.showEditionModal = false
             }
         },
         components: {
-            CreateModal
+            CreateModal,
+            EditionModal
         },
     }
 </script>
 
 <template>
-    <button @click="showModal = true">Abrir modal</button>
-    <CreateModal v-model:showModal="showModal" @closeModal="modalIsClosed" />
+    <button @click="showCreateModal = true">Abrir modal de criação</button>
+    <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed" />
+    <button @click="showEditionModal= true">Abrir modal de edição</button>
+    <EditionModal v-model:showEditionModal="showEditionModal" @closeEditionModal="editionModalIsClosed"/>
 </template>
 
 <style scoped>

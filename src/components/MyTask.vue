@@ -16,6 +16,9 @@ import MySubtask from '@/components/MySubtask.vue'
             }
         },
         methods: {
+            open(){
+              this.$emit('openEditionModal')
+            },
             taskHover() {
                 this.isTaskHover = true
             },
@@ -79,7 +82,7 @@ import MySubtask from '@/components/MySubtask.vue'
         </div>
     </div>
     <div class="container__icons" v-show="isTaskHover">
-      <i class="bi bi-pencil"></i>
+      <i class="bi bi-pencil" @click="open()"></i>
       <i class="bi bi-calendar4"></i>
       <i class="bi bi-trash" @click="deleteTask(task.id)"></i>
     </div>

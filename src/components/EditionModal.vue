@@ -1,49 +1,42 @@
 <script>
-    import axios from 'axios';
-    
+import axios from 'axios';
+
     export default {
         data() {
             return {
-                taskData: {
-                    title: '', 
-                    description: '', 
-                    due_date: ''},
+
             }
         },
         props: {
-            showCreateModal: {
+            showEditionModal: {
                 type: Boolean,
                 required: true
             },
         },
         methods: {
-            close() {
-                this.$emit('closeCreateModal')
-            },
-
-            createTask(){
-                axios.post('task', this.taskData)
-                .then((response) => console.log (response))
-            }
+            closeEdition() {
+                    this.$emit('closeEditionModal')
+                    console.log('até aqui está certo')
+                },
         },
         mounted() {
-        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-      },
+            axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+        }
     }
 </script>
 
 <template>
-    <div class="container__createModal" v-if="showCreateModal">
-        <div class="createModal">
+    <div class="container__editionModal" v-if="showEditionModal">
+        <div class="editionModal">
             <form @submit.prevent="createTask">
                 <div class="container__inputs">
-                    <input type="text" id="title" name="title" placeholder="Nome da Tarefa" v-model="taskData.title">
-                    <input type="text" id="description" name="description" placeholder="Descrição" v-model="taskData.description">
-                    <input type="date" id="due_date" name="due_date" placeholder="Selecione uma data" v-model="taskData.due_date">
+                    <input type="text" id="title" name="title" placeholder="Nome da Tarefa">
+                    <input type="text" id="description" name="description" placeholder="Descrição" >
+                    <input type="date" id="due_date" name="due_date" placeholder="Selecione uma data">
                 </div>
                 <div class="container__butons">
-                    <div id="createCancel" @click="close()">Cancelar</div>
-                    <button id="createCreate">Criar tarefa</button>
+                    <div id="editionCancel" @click="closeEdition()">Cancelar</div>
+                    <button id="editionEdition">Editar tarefa</button>
                 </div>
             </form>
         </div>
@@ -51,7 +44,7 @@
 </template>
 
 <style scoped>
-.container__createModal{
+    .container__editionModal{
     position: fixed;
     top: 0;
     left: 0;
@@ -65,7 +58,7 @@
     justify-content: center;
 }
 
-.createModal{
+.editionModal{
     display: grid;
     gap: 15px;
     width: 50%;
@@ -112,16 +105,15 @@
     font-size: 18px;
 }
 
-#createCancel{
+#editionCancel{
     background-color: #F7F7F7;
     color: black;
     cursor: pointer;
 }
 
-#createCreate{
+#editionEdition{
     background-color: black;
     color: white;
     cursor: pointer;
 }
-
 </style>

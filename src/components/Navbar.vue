@@ -13,7 +13,7 @@
                 this.isCreateHover = false
             },
             open() {
-                this.$emit('openModal')
+                this.$emit('openCreateModal')
             }
         },
     }

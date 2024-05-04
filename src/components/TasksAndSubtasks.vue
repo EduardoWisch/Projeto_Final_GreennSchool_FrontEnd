@@ -11,7 +11,10 @@
       },
       methods: {
         open() {
-                this.$emit('openModal')
+          this.$emit('openCreateModal')
+        },
+        openEditionModal() {
+          this.$emit('openEditionModal')
         },
         getTasks() {
           axios.get('task')
@@ -39,7 +42,7 @@
 </script>
 
 <template>
-    <MyTask v-for="task in tasks" :key="task.id" :task="task"/>
+    <MyTask v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal"/>
   <div class="container__createTask" @click="open()">
     <i class="bi bi-plus-lg"></i>
     <p>Criar tarefa</p>
