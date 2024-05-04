@@ -23,12 +23,34 @@ import axios from 'axios';
         },
         methods: {
             closeEdition() {
-                    this.$emit('closeEditionModal')
-                    console.log('até aqui está certo')
-                },
-            editTask(){
-                console.log(this.task.title)
-            }
+                this.$emit('closeEditionModal')
+                console.log('até aqui está certo')
+            },
+            editTask() {
+                // Objeto para armazenar apenas os campos editados
+                const editedFields = {
+                     title: this.editedTask.title !== '' ? this.editedTask.title : undefined,
+                    description: this.editedTask.description !== '' ? this.editedTask.description : undefined,
+                    due_date: this.editedTask.due_date !== '' ? this.editedTask.due_date : undefined
+                };
+                axios.put(`task/${this.task.id}`, editedFields)
+                .then(response => {
+                    console.log('Tarefa editada com sucesso:', response.data);
+                    // Emitir evento para fechar o modal de edição
+                    this.$emit('closeEditionModal');
+                    // Limpar os campos do formulário de edição
+                    this.clearEditedTask();
+                })
+                .catch(error => {
+                    console.error('Erro ao editar a tarefa:', error);
+                });
+            },
+            clearEditedTask() {
+            // Limpar os campos do formulário de edição
+                this.editedTask.title = '';
+                this.editedTask.description = '';
+                this.editedTask.due_date = '';
+            },
         },
         mounted() {
             axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
@@ -41,9 +63,9 @@ import axios from 'axios';
         <div class="editionModal">
             <form @submit.prevent="editTask">
                 <div class="container__inputs">
-                    <input type="text" id="title" name="title" :placeholder="task.title">
-                    <input type="text" id="description" name="description" :placeholder="task.description" >
-                    <input type="date" id="due_date" name="due_date">
+                    <input type="text" id="title" name="title" :placeholder="task.title" v-model="editedTask.title">
+                    <input type="text" id="description" name="description" :placeholder="task.description" v-model="editedTask.description">
+                    <input type="date" id="due_date" name="due_date" v-model="editedTask.due_date">
                 </div>
                 <div class="container__butons">
                     <div id="editionCancel" @click="closeEdition()">Cancelar</div>
