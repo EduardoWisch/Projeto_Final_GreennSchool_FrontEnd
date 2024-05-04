@@ -4,6 +4,7 @@ import {format} from 'date-fns'
 import MySubtask from '@/components/MySubtask.vue'
 
     export default {
+        emits: ['openEditionModal'],
         data() {
             return {
                 isTaskHover: false
@@ -17,7 +18,7 @@ import MySubtask from '@/components/MySubtask.vue'
         },
         methods: {
             open(){
-              this.$emit('openEditionModal')
+              this.$emit('openEditionModal', this.task)
             },
             taskHover() {
                 this.isTaskHover = true

@@ -4,12 +4,20 @@ import axios from 'axios';
     export default {
         data() {
             return {
-
+                editedTask: {
+                title: '',
+                description: '',
+                due_date: ''
+                }
             }
         },
         props: {
             showEditionModal: {
                 type: Boolean,
+                required: true
+            },
+            task: {
+                type: Object, // Defina o tipo da propriedade como um objeto
                 required: true
             },
         },
@@ -18,6 +26,9 @@ import axios from 'axios';
                     this.$emit('closeEditionModal')
                     console.log('até aqui está certo')
                 },
+            editTask(){
+                console.log(this.task.title)
+            }
         },
         mounted() {
             axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
@@ -28,11 +39,11 @@ import axios from 'axios';
 <template>
     <div class="container__editionModal" v-if="showEditionModal">
         <div class="editionModal">
-            <form @submit.prevent="createTask">
+            <form @submit.prevent="editTask">
                 <div class="container__inputs">
-                    <input type="text" id="title" name="title" placeholder="Nome da Tarefa">
-                    <input type="text" id="description" name="description" placeholder="Descrição" >
-                    <input type="date" id="due_date" name="due_date" placeholder="Selecione uma data">
+                    <input type="text" id="title" name="title" :placeholder="task.title">
+                    <input type="text" id="description" name="description" :placeholder="task.description" >
+                    <input type="date" id="due_date" name="due_date">
                 </div>
                 <div class="container__butons">
                     <div id="editionCancel" @click="closeEdition()">Cancelar</div>

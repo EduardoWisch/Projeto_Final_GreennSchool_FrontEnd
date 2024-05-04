@@ -17,6 +17,8 @@
     },
     data() {
       return {
+        tasks: [],
+        selectedTask: null,
         showCreateModal: false,
         showEditionModal: false
       }
@@ -34,7 +36,8 @@
         console.log('O modal está fechado')
         this.showEditionModal = false
       },
-      editionModalIsOpen() {
+      editionModalIsOpen(task) {
+        this.selectedTask = task
         console.log('O modal está aberto')
         this.showEditionModal = true
       },
@@ -53,7 +56,7 @@
     </div>
 
     <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed"/>
-    <EditionModal v-model:showEditionModal="showEditionModal" @closeEditionModal="editionModalIsClosed"/>
+    <EditionModal v-model:showEditionModal="showEditionModal" :task="selectedTask" @closeEditionModal="editionModalIsClosed"/>
 
 </template>
 
