@@ -57,25 +57,42 @@ export default {
         },
         updateStatusTask(task) {
 // Invertendo o status atual
-            const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+              const newStatus = task.status === 'completed' ? 'pending' : 'completed';
 // Verificando se o novo status é válido
-            if (newStatus !== 'completed' && newStatus !== 'pending') {
+              if (newStatus !== 'completed' && newStatus !== 'pending') {
                 console.error('Novo status inválido:', newStatus);
                 return;
-            }
+              }
 // Atualização otimista
-            task.status = newStatus;
+              task.status = newStatus;
 // Enviando a solicitação de atualização para o servidor
-            axios.put(`task/${task.id}`, { status: newStatus })
-            .then(() => {
-                console.log('Status alterado')
-// Atualização bem-sucedida, nada precisa ser feito aqui
-            })
-            .catch(error => {
-// Se houver um erro, reverta a atualização
+              axios.put(`task/${task.id}`, { status: newStatus })
+              .then(() => {
+                console.log('Status alterado com sucesso');
+// Atualizar o status de todas as subtarefas
+                this.updateStatusSubtasks(task.subtasks, newStatus);
+              })
+              .catch(error => {
+            // Se houver um erro, reverta a atualização
                 console.error('Erro ao atualizar a tarefa:', error);
                 task.status = task.status === 'completed' ? 'pending' : 'completed';
+              });
+            },
+            updateStatusSubtasks(subtasks, newStatus) {
+// Percorra todas as subtarefas e atualize o status
+            subtasks.forEach(subtask => {
+            subtask.status = newStatus;
+        // Enviar solicitação de atualização para o servidor
+            axios.put(`subtask/${subtask.id}`, { status: newStatus })
+            .then(() => {
+              console.log(`Status da subtarefa ${subtask.id} atualizado para ${newStatus}`);
+            })
+            .catch(error => {
+              console.error(`Erro ao atualizar o status da subtarefa ${subtask.id}:`, error);
+// Se houver um erro, reverta a atualização
+              subtask.status = newStatus === 'completed' ? 'pending' : 'completed';
             });
+          });
         },
         openCreateSubtaskModal() {
             this.showCreateSubtaskModal = true;
