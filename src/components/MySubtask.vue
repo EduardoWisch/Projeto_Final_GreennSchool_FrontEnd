@@ -6,8 +6,9 @@ import axios from 'axios';
             return {
                 isSubtaskHover: false,
                 editTitleSubtask: false,
-                subtaskDataTitle: {
-                    title: ''
+                subtaskData: {
+                    title: '',
+                    description: '',
                 }
             }
         },
@@ -60,19 +61,28 @@ import axios from 'axios';
                     subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
                 });
             },
-            editSubtaskTitle(){
-                axios.put(`subtask/${this.subtask.id}`, this.subtaskDataTitle)
+            editSubtaskData(){
+                const subtaskFields = {
+                    title: this.subtaskData.title !== '' ? this.subtaskData.title : undefined,
+                    description: this.subtaskData.description !== '' ? this.subtaskData.description : undefined,
+                };
+                axios.put(`subtask/${this.subtask.id}`, subtaskFields)
                 .then(response => {
-                    console.log('Data editada com sucesso:', response.data);
+                    console.log('Tarefa editada com sucesso:', response.data);
                     // Emitir evento para fechar o modal de edição
-                    this.editTitleSubtask = false
-                    // Limpar os campos do formulário de edição
-                    this.subtaskDataTitle.title = ''
                     this.refresh()
+                    this.$emit('closeEditionModal');
+                    // Limpar os campos do formulário de edição
+                    this.clearSubtaskTask();
                 })
                 .catch(error => {
                     console.error('Erro ao editar a tarefa:', error);
                 });
+            },
+            clearSubtaskTask() {
+            // Limpar os campos do formulário de edição
+                this.subtaskData.title = '';
+                this.subtaskData.description = '';
             },
         }       
     }
@@ -86,9 +96,10 @@ import axios from 'axios';
             
             <div class="mySubtask-titles">
                 <div v-if="editTitleSubtask === true">
-                    <form form-editTitle @submit.prevent="editSubtaskTitle">
-                        <input type="text" id="title" name="title" placeholder="Atualize sua subtask" v-model="subtaskDataTitle.title">
-                        <div id="editCancel" @click="editTitleSubtask = false, isSubtaskHover = false">Cancelar</div>
+                    <form form-editTitle @submit.prevent="editSubtaskData">
+                        <input type="text" id="title" name="title" placeholder="Atualize sua subtask" v-model="subtaskData.title">
+                        <input type="text" id="description" name="description" :placeholder="subtask.description" v-model="subtaskData.description">
+                        <div id="editCancel" @click="editTitleSubtask = false, isSubtaskHover = false, clearSubtaskTask()">Cancelar</div>
                         <button id="editTitle">Alterar</button>
                     </form>
                 </div>
@@ -149,12 +160,21 @@ import axios from 'axios';
 
 #title{
     width: 200px;
-    font-size: 16px;
     border: none;
     outline: none;
     width: 100%;
     font-size: 20px;
 }
+
+#description{
+    width: 200px;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+
 
 #editCancel{
     padding: 1% 4%;

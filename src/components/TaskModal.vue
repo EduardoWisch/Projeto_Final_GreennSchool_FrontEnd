@@ -189,7 +189,7 @@ export default {
         </div>
     </div>
     <CreateSubtaskModal v-if="showCreateSubtaskModal" :showCreateSubtaskModal="showCreateSubtaskModal" @closeCreateSubtaskModal="closeCreateSubtaskModal" :id_task="task.id" :taskDueDate="task.due_date" />
-    <TaskMenu v-if="showTaskMenu" :showTaskMenu="showTaskMenu" @closeTaskMenu="closeTaskMenu"/>
+    <TaskMenu v-if="showTaskMenu" :showTaskMenu="showTaskMenu" @closeTaskMenu="closeTaskMenu" :taskId="task.id"/>
 </template>
 
 <style scoped> 
