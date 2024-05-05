@@ -1,11 +1,13 @@
 <script>
 import axios from 'axios';
 import MySubtask from '@/components/MySubtask.vue';
+import CreateSubtaskModal from '@/components/CreateSubtaskModal.vue';
 import {format} from 'date-fns'
 export default {
+    emits: ['closeTaskModal'],
     data(){
         return {
-            
+            showCreateSubtaskModal: false,
         }
     },
     props: {
@@ -75,12 +77,19 @@ export default {
                 task.status = task.status === 'completed' ? 'pending' : 'completed';
             });
         },
+        openCreateSubtaskModal() {
+            this.showCreateSubtaskModal = true;
+        },
+        closeCreateSubtaskModal() {
+            this.showCreateSubtaskModal = false;
+        }
     },
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
     },
     components: {
-        MySubtask
+        MySubtask,
+        CreateSubtaskModal,
     }
 }   
 </script>
@@ -116,9 +125,9 @@ export default {
                             </div>
                         </div>
         
-                        <div class="createSubtarefa" @click="openCreate()">
+                        <div class="createSubtarefa" @click="openCreateSubtaskModal()">
                             <i class="bi bi-plus-lg"></i>
-                            <p>Criar Subtarefa</p>
+                            <p @click="openCreateSubtaskModal">Criar Subtarefa</p>
                         </div>
 
                     </div>
@@ -153,6 +162,7 @@ export default {
             </div>
         </div>
     </div>
+    <CreateSubtaskModal v-if="showCreateSubtaskModal" :showCreateSubtaskModal="showCreateSubtaskModal" @closeCreateSubtaskModal="closeCreateSubtaskModal" :id_task="task.id" :taskDueDate="task.due_date" />
 </template>
 
 <style scoped> 

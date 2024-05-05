@@ -93,7 +93,8 @@ import axios from 'axios';
                     </form>
                 </div>
                 <div v-else>
-                    <p>{{ subtask.title }}</p>
+                    <p class="titleSubtask">{{ subtask.title }}</p>
+                    <p class="descriptionSubtask">{{ subtask.description }}</p>
                 </div>
                 <div class="mySubtask-container__icons" v-show="isSubtaskHover">
                     <i class="bi bi-pencil" @click="editTitleSubtask = true"></i>
@@ -105,11 +106,20 @@ import axios from 'axios';
 
 <style scoped>
 
+.titleSubtask {
+  overflow: hidden; /* Oculta qualquer texto que não caiba */
+  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+}
+
+.descriptionSubtask {
+    overflow: hidden; /* Oculta qualquer texto que não caiba */
+    text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+    font-size: 14px;
+}
+
 .bi-circle, .bi-check-circle-fill, .bi-pencil, .bi-trash  {
     cursor: pointer;
 } 
-
-
 
 .mySubtask-titles{
   width: 84%;
