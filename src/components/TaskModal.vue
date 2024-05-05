@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import MySubtask from '@/components/MySubtask.vue';
 import {format} from 'date-fns'
 export default {
     data(){
@@ -32,9 +33,15 @@ export default {
             return `${formattedDate} às ${hour}`;
         },
         deadlineStatus() {
+            // Obtém a data de vencimento da tarefa e remove o horário
             const deadlineDate = new Date(this.task.due_date);
-            const currentDate = new Date();
+            deadlineDate.setHours(0, 0, 0, 0); // Define o horário para meia-noite
             
+            // Obtém a data atual e remove o horário
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0); // Define o horário para meia-noite
+            
+            // Compara as datas
             if (currentDate > deadlineDate) {
                 return 'overdue'; // Vencido
             } else {
@@ -68,32 +75,12 @@ export default {
                 task.status = task.status === 'completed' ? 'pending' : 'completed';
             });
         },
-        updateStatusSubtask(subtask) {
-// Invertendo o status atual
-                const newStatus = subtask.status === 'completed' ? 'pending' : 'completed';
-
-// Verificando se o novo status é válido
-                if (newStatus !== 'completed' && newStatus !== 'pending') {
-                    console.error('Novo status inválido:', newStatus);
-                    return;
-                }
-// Atualização otimista
-                subtask.status = newStatus;
-// Enviando a solicitação de atualização para o servidor
-                axios.put(`subtask/${subtask.id}`, { status: newStatus })
-                .then(() => {
-                    console.log('Status alterado com sucesso')
-// Atualização bem-sucedida, nada precisa ser feito aqui
-                })
-                .catch(error => {
-// Se houver um erro, reverta a atualização
-                    console.error('Erro ao atualizar a tarefa:', error);
-                    subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
-                });
-            },
     },
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+    },
+    components: {
+        MySubtask
     }
 }   
 </script>
@@ -124,12 +111,16 @@ export default {
                         <p>{{ task.description }}</p>
                         <h2>Subtarefas</h2>
                         <div class="container__subtask">
-                            <div class="subtask"v-for="subtask in task.subtasks" :key="subtask.id">
-                                <i class="bi bi-circle" @click="updateStatusSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
-                                 <i class="bi bi-check-circle-fill" @click="updateStatusSubtask(subtask)" v-else></i>
-                                <p>{{ subtask.title }}</p>
+                            <div class="container__subtask"> 
+                                <MySubtask v-for="subtask in task.subtasks" :key="subtask.id" :subtask="subtask" class="subtask"/>
                             </div>
                         </div>
+        
+                        <div class="createSubtarefa" @click="openCreate()">
+                            <i class="bi bi-plus-lg"></i>
+                            <p>Criar Subtarefa</p>
+                        </div>
+
                     </div>
                 </div>
                 <div class="container__information">
@@ -256,8 +247,9 @@ export default {
 }
 
 .subtask {
-    margin-top: 2%;
+    margin-top: 3%;
     display: flex;
+    margin-left: -5%;
     gap: 5%;
     color: #000;
     font-size: 18px;
@@ -310,5 +302,15 @@ export default {
 .dateOverdue{
     background: rgba(211, 20, 8, 0.1);
     color: #D31408;
+}
+
+.createSubtarefa{
+  display: flex;
+  margin-top: 3%;
+  color: black;
+  gap: 2.5%;
+  padding: 0% 0% 0% 0;
+  font-size: 18px;
+  cursor: pointer;
 }
 </style>

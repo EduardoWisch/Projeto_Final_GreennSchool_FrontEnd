@@ -105,6 +105,12 @@ import axios from 'axios';
 
 <style scoped>
 
+.bi-circle, .bi-check-circle-fill, .bi-pencil, .bi-trash  {
+    cursor: pointer;
+} 
+
+
+
 .mySubtask-titles{
   width: 84%;
   display: flex;

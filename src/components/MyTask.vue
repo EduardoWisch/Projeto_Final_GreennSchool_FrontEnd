@@ -128,15 +128,15 @@ import MySubtask from '@/components/MySubtask.vue'
         </div>
         <div class="container__taskDate" v-else>
           <div v-if="deadlineStatus === 'withinDeadline'" class="dateWithinDeadline taskDate">
-            <i class="bi bi-calendar4" @click="openModalTask()"></i>
+            <i class="bi bi-calendar4" ></i>
             <p>{{formatDate(task.due_date)}}</p>
           </div>
           <div v-else-if="deadlineStatus === 'today'" class="dateToday taskDate">
-            <i class="bi bi-calendar4" @click="openModalTask()"></i>
+            <i class="bi bi-calendar4"></i>
             <p>hoje</p>
           </div>
           <div v-else class="dateOverdue taskDate">
-            <i class="bi bi-calendar4 " @click="openModalTask()"></i>
+            <i class="bi bi-calendar4 "></i>
             <p>{{formatDate(task.due_date)}}</p>
           </div>
         </div>
