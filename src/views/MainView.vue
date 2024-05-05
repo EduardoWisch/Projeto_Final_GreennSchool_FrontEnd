@@ -39,8 +39,8 @@
         console.log('O modal está fechado')
         this.showEditionModal = false
       },
-      editionModalIsOpen(taskEditar) {
-        this.selectedEditTask = taskEditar
+      editionModalIsOpen(task) {
+        this.selectedEditTask = task
         console.log('O modal está aberto')
         this.showEditionModal = true
       },
@@ -48,10 +48,10 @@
         console.log('O modal está fechado')
         this.showTaskModal = false
       },
-      taskModalIsOpen(taskTask) {
-        this.selectedTask = taskTask
+      taskModalIsOpen(task) {
+        this.selectedTask = task
         console.log('O modal está aberto')
-        console.log('Recebido evento para abrir o modal da tarefa:', taskTask);
+        console.log('Recebido evento para abrir o modal da tarefa:', task);
         this.showTaskModal = true
       },
       
@@ -69,8 +69,8 @@
     </div>
 
     <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed"/>
-    <EditionModal v-model:showEditionModal="showEditionModal" :taskEditar="selectedEditTask" @closeEditionModal="editionModalIsClosed"/>
-    <TaskModal v-model:showTaskModal="showTaskModal" :taskTask="selectedTask" @closeTaskModal="taskModalIsClosed" />
+    <EditionModal v-model:showEditionModal="showEditionModal" :task="selectedEditTask" @closeEditionModal="editionModalIsClosed"/>
+    <TaskModal v-model:showTaskModal="showTaskModal" :task="selectedTask" @closeTaskModal="taskModalIsClosed" />
 
 </template>
 

@@ -16,14 +16,14 @@ import axios from 'axios';
                 type: Boolean,
                 required: true
             },
-            // task: {
-            //     type: Object, // Defina o tipo da propriedade como um objeto
-            //     required: true
-            // },
-            taskEditar: {
-                type: Object,
+            task: {
+                type: Object, // Defina o tipo da propriedade como um objeto
                 required: true
-            }
+            },
+            // taskEditar: {
+            //     type: Object,
+            //     required: true
+            // }
         },
         methods: {
             refresh(){
@@ -40,7 +40,7 @@ import axios from 'axios';
                     description: this.editedTask.description !== '' ? this.editedTask.description : undefined,
                     due_date: this.editedTask.due_date !== '' ? this.editedTask.due_date : undefined
                 };
-                axios.put(`task/${this.taskEditar.id}`, editedFields)
+                axios.put(`task/${this.task.id}`, editedFields)
                 .then(response => {
                     console.log('Tarefa editada com sucesso:', response.data);
                     // Emitir evento para fechar o modal de edição
@@ -71,8 +71,8 @@ import axios from 'axios';
         <div class="editionModal">
             <form @submit.prevent="editTask">
                 <div class="container__inputs">
-                    <input type="text" id="title" name="title" :placeholder="taskEditar.title" v-model="editedTask.title">
-                    <input type="text" id="description" name="description" :placeholder="taskEditar.description" v-model="editedTask.description">
+                    <input type="text" id="title" name="title" :placeholder="task.title" v-model="editedTask.title">
+                    <input type="text" id="description" name="description" :placeholder="task.description" v-model="editedTask.description">
                     <input type="date" id="due_date" name="due_date" v-model="editedTask.due_date">
                 </div>
                 <div class="container__butons">

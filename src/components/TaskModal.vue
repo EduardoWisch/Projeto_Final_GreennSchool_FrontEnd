@@ -11,7 +11,7 @@ export default {
             type: Boolean,
             required: true
         },
-        taskTask: {
+        task: {
             type: Object,
             required: true
         }
@@ -44,7 +44,7 @@ export default {
                 <div  class="container__tasks">
                     <i class="bi bi-circle"></i>
                     <div class="content">
-                        <h1>{{ taskTask.title }}</h1>
+                        <h1>{{ task.title }}</h1>
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid sint iste dolorem cupiditate autem cumque harum officia illum labore unde ea quam magnam corporis neque veritatis sed, deleniti quas sapiente?</p>
                         <h2>Subtarefas</h2>
                         <div class="container__subtask">

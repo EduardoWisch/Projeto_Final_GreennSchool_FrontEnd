@@ -19,18 +19,18 @@ import MySubtask from '@/components/MySubtask.vue'
             type: Object,
             required: true
             },
-            taskTask: {
-              type: Object,
-              required: true
-            },
-            taskEditar: {
-              type: Object,
-              required: true
-            },
+            // taskTask: {
+            //   type: Object,
+            //   required: true
+            // },
+            // taskEditar: {
+            //   type: Object,
+            //   required: true
+            // },
         },
         methods: {
             openEdition(){
-              this.$emit('openEditionModal', this.taske)
+              this.$emit('openEditionModal', this.task)
             },
             openModalTask(){
               this.$emit('openTaskModal', this.task)

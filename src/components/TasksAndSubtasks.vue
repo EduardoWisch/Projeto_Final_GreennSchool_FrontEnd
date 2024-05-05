@@ -13,12 +13,12 @@
         openCreate() {
           this.$emit('openCreateModal')
         },
-        openEditionModal(taskEditar) {
-          this.$emit('openEditionModal', taskEditar)
+        openEditionModal(task) {
+          this.$emit('openEditionModal', task)
         },
-        openTaskModal(taskTask) {
-          this.$emit('openTaskModal', taskTask)
-          console.log('abrindo modal para tarefa', taskTask)
+        openTaskModal(task) {
+          this.$emit('openTaskModal', task)
+          console.log('abrindo modal para tarefa', task)
         },
         getTasks() {
           axios.get('task')
