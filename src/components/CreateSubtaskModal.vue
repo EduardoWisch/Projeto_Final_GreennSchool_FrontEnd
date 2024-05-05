@@ -31,7 +31,25 @@ export default {
     close() {
         this.$emit('closeCreateSubtaskModal')
     },
+    checkTitle(){
+      if (this.subtaskData.title.length === 0){
+        alert('Por favor, insira um título para a subtarefa')
+        return
+      }
+      if(this.subtaskData.title.length > 30){
+        alert('O título deve ter no máximo 50 caracteres')
+        return
+      }
+    },
+    checkDescription(){
+      if(this.subtaskData.description.length > 50){
+        alert('Sua descrição é muito grande para uma subtarefa')
+        return
+      }
+    },
     createSubtask() {
+      this.checkTitle()
+      this.checkDescription()
       // Antes de criar a subtarefa, atribua o ID da tarefa ao objeto subtaskData
       this.subtaskData.id_task = this.id_task;
       // Defina a data de vencimento da subtarefa como a data de vencimento da tarefa
