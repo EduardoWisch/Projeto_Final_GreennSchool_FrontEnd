@@ -57,16 +57,32 @@ import MySubtask from '@/components/MySubtask.vue'
             formatDate(date) {
                 return format(new Date(date), 'dd/MM/yyyy');
             },
-            deleteTask(id){
-                axios.delete(`task/${id}`)
+            deleteTask(id) {
+              axios.get(`task/${id}`)
+              .then(response => {
+                const task = response.data;
+        
+                // Verifica se a tarefa possui subtasks
+                if (task.subtasks.length > 0) {
+                    alert('Não é possível excluir esta tarefa porque existem subtasks associadas a ela.');
+                } else {
+                // Se não houver subtasks, excluímos a tarefa
+                  axios.delete(`task/${id}`)
                 .then(() => {
-                    console.log('Tarefa excluída com sucesso');
-                    this.refresh()
-                })
-                .catch(error => {
-                    console.error('Erro ao deletar a tarefa:', error);
-                });
-            },
+                console.log('Tarefa excluída com sucesso');
+                this.refresh();
+            })
+            .catch(error => {
+                console.error('Erro ao deletar a tarefa:', error);
+                alert('Erro ao excluir a tarefa. Por favor, tente novamente mais tarde.');
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao obter a tarefa:', error);
+        alert('Erro ao obter a tarefa. Por favor, tente novamente mais tarde.');
+    });
+},
             updateStatusTask(task) {
 // Invertendo o status atual
               const newStatus = task.status === 'completed' ? 'pending' : 'completed';
