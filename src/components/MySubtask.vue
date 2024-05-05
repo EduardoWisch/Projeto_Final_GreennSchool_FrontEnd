@@ -4,7 +4,11 @@ import axios from 'axios';
     export default {
         data() {
             return {
-                isSubtaskHover: false
+                isSubtaskHover: false,
+                editTitleSubtask: false,
+                subtaskDataTitle: {
+                    title: ''
+                }
             }
         },
         props: {
@@ -56,6 +60,20 @@ import axios from 'axios';
                     subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
                 });
             },
+            editSubtaskTitle(){
+                axios.put(`subtask/${this.subtask.id}`, this.subtaskDataTitle)
+                .then(response => {
+                    console.log('Data editada com sucesso:', response.data);
+                    // Emitir evento para fechar o modal de edição
+                    this.editTitleSubtask = false
+                    // Limpar os campos do formulário de edição
+                    this.subtaskDataTitle.title = ''
+                    this.refresh()
+                })
+                .catch(error => {
+                    console.error('Erro ao editar a tarefa:', error);
+                });
+            },
         }       
     }
 </script>
@@ -67,9 +85,18 @@ import axios from 'axios';
             <i class="bi bi-check-circle-fill" @click="updateStatusSubtask(subtask)" v-else></i>
             
             <div class="mySubtask-titles">
-                <p>{{ subtask.title }}</p>
+                <div v-if="editTitleSubtask === true">
+                    <form form-editTitle @submit.prevent="editSubtaskTitle">
+                        <input type="text" id="title" name="title" placeholder="Atualize sua subtask" v-model="subtaskDataTitle.title">
+                        <div id="editCancel" @click="editTitleSubtask = false, isSubtaskHover = false">Cancelar</div>
+                        <button id="editTitle">Alterar</button>
+                    </form>
+                </div>
+                <div v-else>
+                    <p>{{ subtask.title }}</p>
+                </div>
                 <div class="mySubtask-container__icons" v-show="isSubtaskHover">
-                    <i class="bi bi-pencil"></i>
+                    <i class="bi bi-pencil" @click="editTitleSubtask = true"></i>
                     <i class="bi bi-trash" @click="deleteSubtask(subtask.id)"></i>
                 </div>
             </div>
@@ -97,5 +124,39 @@ import axios from 'axios';
 .mySubtask-container__icons {
   display: flex;
   gap: 40%;
+}
+
+.form-editTitle{
+  display: flex;
+  width: 100%;
+}
+
+#title{
+    width: 200px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+#editCancel{
+    padding: 1% 4%;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: transparent;
+    color: red;
+    cursor: pointer;
+}
+
+#editTitle{
+    padding: 1% 4%;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: transparent;
+    color: green;
+    cursor: pointer;
 }
 </style>
