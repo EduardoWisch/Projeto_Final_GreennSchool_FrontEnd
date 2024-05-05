@@ -33,10 +33,16 @@ import axios from 'axios';
                 this.$emit('closeEditionModal')
                 console.log('até aqui está certo')
             },
+            checkTitle(){
+                if(this.editedTask.title > 50){
+                    alert('O título da tarefa deve ter no máximo 50 caracteres ')
+                }
+            },
             editTask() {
+                this.checkTitle()
                 // Objeto para armazenar apenas os campos editados
                 const editedFields = {
-                     title: this.editedTask.title !== '' ? this.editedTask.title : undefined,
+                    title: this.editedTask.title !== '' ? this.editedTask.title : undefined,
                     description: this.editedTask.description !== '' ? this.editedTask.description : undefined,
                     due_date: this.editedTask.due_date !== '' ? this.editedTask.due_date : undefined
                 };
