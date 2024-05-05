@@ -62,7 +62,7 @@ export default {
           // Emitir um evento para notificar o componente pai sobre a criação da subtarefa
           this.$emit('subtaskCreated', response.data);
           // Fechar o modal de criação de subtarefa
-          this.$emit('close');
+          this.$emit('closeCreateSubtaskModal');
         })
         .catch(error => {
           console.error('Erro ao criar subtarefa:', error);

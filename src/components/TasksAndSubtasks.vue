@@ -56,11 +56,28 @@
             console.error('Erro ao obter as tarefas:', error);
           });
         },
+        fetchTasks() {
+          axios.get('task')
+          .then(response => {
+            this.tasks = response.data.data;
+// Após obter as tarefas, obtenha as subtarefas
+            this.tasks.forEach(task => {
+              this.getSubtasks(task.id);
+            });
+          })
+          .catch(error => {
+            console.error('Erro ao obter as tarefas:', error);
+          });
+        },
       },
       mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
   
         this.getTasks()
+        
+        setInterval(() => {
+          this.fetchTasks(); 
+          }, 30000);
       },
       components: {
         MyTask,
