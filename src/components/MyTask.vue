@@ -19,14 +19,21 @@ import MySubtask from '@/components/MySubtask.vue'
             type: Object,
             required: true
             },
-            // taskTask: {
-            //   type: Object,
-            //   required: true
-            // },
-            // taskEditar: {
-            //   type: Object,
-            //   required: true
-            // },
+        },
+        computed: {
+          deadlineStatus() {
+            const deadlineDate = new Date(this.task.due_date);
+            const currentDate = new Date();
+            const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); // Apenas data, sem horário
+            
+            if (today > deadlineDate) {
+                return 'overdue'; // Vencido
+            } else if (today.getTime() === deadlineDate.getTime()) {
+                return 'today'; // Hoje
+            } else {
+                return 'withinDeadline'; // Dentro do prazo
+            }
+          }
         },
         methods: {
             openEdition(){
@@ -119,9 +126,19 @@ import MySubtask from '@/components/MySubtask.vue'
             <button id="editDate">Alterar</button>
           </form>
         </div>
-        <div class="taskDate" v-else>
+        <div class="container__taskDate" v-else>
+          <div v-if="deadlineStatus === 'withinDeadline'" class="dateWithinDeadline taskDate">
             <i class="bi bi-calendar4" @click="openModalTask()"></i>
             <p>{{formatDate(task.due_date)}}</p>
+          </div>
+          <div v-else-if="deadlineStatus === 'today'" class="dateToday taskDate">
+            <i class="bi bi-calendar4" @click="openModalTask()"></i>
+            <p>hoje</p>
+          </div>
+          <div v-else class="dateOverdue taskDate">
+            <i class="bi bi-calendar4 " @click="openModalTask()"></i>
+            <p>{{formatDate(task.due_date)}}</p>
+          </div>
         </div>
     </div>
     <div class="container__icons" v-show="isTaskHover">
@@ -166,13 +183,24 @@ import MySubtask from '@/components/MySubtask.vue'
   margin-bottom: 3%;
 }
 
+.container__taskDate{
+  display: flex;
+}
+
 .taskDate{
   display: flex;
   gap: 3%;
 }
 
+.taskDate i{
+  font-size: 18px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
 .taskDate p{
   font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-bottom: 0px;
 }
 
@@ -226,6 +254,21 @@ import MySubtask from '@/components/MySubtask.vue'
   display: flex;
   padding: 1% 2.5%;
   gap: 5%;
+}
+
+.dateWithinDeadline{
+  background-color: rgba(0, 148, 136, 0.1);
+  color: #009488;
+}
+
+.dateToday{
+  background-color: rgba(0, 148, 136, 0.1);
+  color: #009488
+}
+
+.dateOverdue{
+  background: rgba(211, 20, 8, 0.1);
+  color: #D31408;
 }
 
 </style>
