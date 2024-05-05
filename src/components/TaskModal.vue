@@ -2,12 +2,14 @@
 import axios from 'axios';
 import MySubtask from '@/components/MySubtask.vue';
 import CreateSubtaskModal from '@/components/CreateSubtaskModal.vue';
+import TaskMenu from '@/components/TaskMenu.vue';
 import {format} from 'date-fns'
 export default {
     emits: ['closeTaskModal'],
     data(){
         return {
             showCreateSubtaskModal: false,
+            showTaskMenu: false
         }
     },
     props: {
@@ -99,6 +101,12 @@ export default {
         },
         closeCreateSubtaskModal() {
             this.showCreateSubtaskModal = false;
+        },
+        openTaskMenu() {
+            this.showTaskMenu = true;
+        },
+        closeTaskMenu() {
+            this.showTaskMenu = false;
         }
     },
     mounted() {
@@ -107,6 +115,7 @@ export default {
     components: {
         MySubtask,
         CreateSubtaskModal,
+        TaskMenu,
     }
 }   
 </script>
@@ -124,7 +133,7 @@ export default {
                     <p>Atrasada</p>
                 </div>
                 <div class="container__icons">
-                    <i class="bi bi-three-dots"></i>
+                    <i class="bi bi-three-dots" @click="openTaskMenu()"></i>
                     <i class="bi bi-x-lg" @click="close()"></i>
                 </div>
             </div>
@@ -180,6 +189,7 @@ export default {
         </div>
     </div>
     <CreateSubtaskModal v-if="showCreateSubtaskModal" :showCreateSubtaskModal="showCreateSubtaskModal" @closeCreateSubtaskModal="closeCreateSubtaskModal" :id_task="task.id" :taskDueDate="task.due_date" />
+    <TaskMenu v-if="showTaskMenu" :showTaskMenu="showTaskMenu" @closeTaskMenu="closeTaskMenu"/>
 </template>
 
 <style scoped> 
