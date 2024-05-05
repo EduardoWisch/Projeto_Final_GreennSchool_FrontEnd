@@ -17,11 +17,11 @@
       },
       computed: {
         tasksDueToday() {
-    const today = new Date().toISOString().split('T')[0]; 
-
-    return this.tasks.filter(task => {
-      const taskDate = new Date(task.due_date).toISOString().split('T')[0]; 
-    });
+        const today = new Date().toISOString().split('T')[0]; 
+        return this.tasks.filter(task => {
+          const taskDate = new Date(task.due_date).toISOString().split('T')[0]; 
+          return taskDate === today;
+        });
       },
       tasksExpired() {
         const today = new Date().toISOString().split('T')[0]; 
