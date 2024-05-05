@@ -20,11 +20,41 @@
             close() {
                 this.$emit('closeCreateModal')
             },
-
-            createTask(){
+            checkTitle(){
+                if (!this.taskData.title.trim()) {
+                    alert('Por favor, insira um título para a tarefa.');
+                    return;
+                }
+                if (this.taskData.title.length > 50){
+                    alert('O título da tarefa deve ter no máximo 50 caracteres');
+                    return
+                }
+            },
+            checkDate(){
+                if (!this.taskData.due_date) {
+                    alert('Por favor, selecione uma data para a tarefa.');
+                    return;
+                }
+                const selectedDate = new Date(this.taskData.due_date);
+                const currentDate = new Date();
+                if (selectedDate < currentDate) {
+                    alert('A data selecionada para a tarefa deve ser no futuro.');
+                    return;
+                }
+            },
+            createTask() {
+                // Verificando se o título está vazio
+                this.checkTitle()
+                this.checkDate()
+                // Se todos os critérios de validação forem atendidos, envie os dados
                 axios.post('task', this.taskData)
-                .then((response) => console.log (response))
-                this.$emit('closeCreateModal')
+                .then((response) => {
+                    console.log(response);
+                    this.$emit('closeCreateModal');
+                })
+                .catch((error) => {
+                    console.error('Erro ao criar a tarefa:', error);
+                });
             }
         },
         mounted() {
