@@ -61,7 +61,21 @@ import axios from 'axios';
                     subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
                 });
             },
+            checkTitle(){
+                if(this.subtaskData.title.length > 30){
+                    alert('O título deve ter no máximo 50 caracteres')
+                    return
+                }
+                },
+                checkDescription(){
+                if(this.subtaskData.description.length > 50){
+                    alert('Sua descrição é muito grande para uma subtarefa')
+                    return
+                }
+            },
             editSubtaskData(){
+                this.checkTitle()
+                this.checkDescription()
                 const subtaskFields = {
                     title: this.subtaskData.title !== '' ? this.subtaskData.title : undefined,
                     description: this.subtaskData.description !== '' ? this.subtaskData.description : undefined,
@@ -73,6 +87,7 @@ import axios from 'axios';
                     this.refresh()
                     this.$emit('closeEditionModal');
                     // Limpar os campos do formulário de edição
+                    this.editTitleSubtask = false
                     this.clearSubtaskTask();
                 })
                 .catch(error => {
@@ -100,7 +115,7 @@ import axios from 'axios';
                         <input type="text" id="title" name="title" placeholder="Atualize sua subtask" v-model="subtaskData.title">
                         <input type="text" id="description" name="description" :placeholder="subtask.description" v-model="subtaskData.description">
                         <div id="editCancel" @click="editTitleSubtask = false, isSubtaskHover = false, clearSubtaskTask()">Cancelar</div>
-                        <button id="editTitle">Alterar</button>
+                        <button id="editTitle"   @click="isSubtaskHover = false">Alterar</button>
                     </form>
                 </div>
                 <div v-else>

@@ -82,7 +82,7 @@
       <TasksAndSubtasks :contentPage="contentPage" @openCreateModal="createModalIsOpen" @openEditionModal="editionModalIsOpen" @openTaskModal="taskModalIsOpen"/>
     </div>
 
-    <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed"/>
+    <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed" @refreshTask="refresh()"/>
     <EditionModal v-model:showEditionModal="showEditionModal" :task="selectedEditTask" @closeEditionModal="editionModalIsClosed"/>
     <TaskModal v-model:showTaskModal="showTaskModal" :task="selectedTask" @closeTaskModal="taskModalIsClosed" />
 
