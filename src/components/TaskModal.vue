@@ -1,9 +1,10 @@
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import {format} from 'date-fns'
 export default {
     data(){
         return {
-        
+            
         }
     },
     props: {
@@ -14,6 +15,31 @@ export default {
         task: {
             type: Object,
             required: true
+        }
+    },
+    computed: {
+        formattedCreatedAt(){
+            const formattedDate = format(new Date(this.task.created_at), 'dd/MM/yyyy');
+            const hour = format(new Date(this.task.created_at), 'HH:mm');
+            return `${formattedDate} às ${hour}`;
+        },
+        formattedDueDate(){
+            return format(new Date(this.task.due_date), 'dd/MM/yyyy')
+        },
+        formattedUpdatedAt(){
+            const formattedDate = format(new Date(this.task.updated_at), 'dd/MM/yyyy');
+            const hour = format(new Date(this.task.updated_at), 'HH:mm');
+            return `${formattedDate} às ${hour}`;
+        },
+        deadlineStatus() {
+            const deadlineDate = new Date(this.task.due_date);
+            const currentDate = new Date();
+            
+            if (currentDate > deadlineDate) {
+                return 'overdue'; // Vencido
+            } else {
+                return 'withinDeadline'; // Dentro do prazo
+            }
         }
     },
     methods: {
@@ -31,9 +57,13 @@ export default {
      <div class="container__taskModal" v-if="showTaskModal">
         <div class="taskModal">
             <div class="container__top">
-                <div class="date">
+                <div class="date dateWithinDeadline" v-if="deadlineStatus === 'withinDeadline'">
                     <i class="bi bi-calendar4"></i>
                     <p>No prazo</p>
+                </div>
+                <div class="date dateOverdue" v-else>
+                    <i class="bi bi-calendar4"></i>
+                    <p>Atrasada</p>
                 </div>
                 <div class="container__icons">
                     <i class="bi bi-three-dots"></i>
@@ -45,16 +75,12 @@ export default {
                     <i class="bi bi-circle"></i>
                     <div class="content">
                         <h1>{{ task.title }}</h1>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid sint iste dolorem cupiditate autem cumque harum officia illum labore unde ea quam magnam corporis neque veritatis sed, deleniti quas sapiente?</p>
+                        <p>{{ task.description }}</p>
                         <h2>Subtarefas</h2>
                         <div class="container__subtask">
-                            <div class="subtask">
+                            <div class="subtask"v-for="subtask in task.subtasks" :key="subtask.id">
                                 <i class="bi bi-circle"></i>
-                                <p>Comprar pão</p>
-                            </div>
-                            <div class="subtask">
-                                <i class="bi bi-circle"></i>
-                                <p>Comprar produtos de limpeza</p>
+                                <p>{{ subtask.title }}</p>
                             </div>
                         </div>
                     </div>
@@ -64,26 +90,26 @@ export default {
                         <p>Criado em</p>
                         <div>
                             <i class="bi bi-calendar4"></i>
-                            <p>10/20/2020 as 17:50</p>
+                            <p>{{ formattedCreatedAt }}</p>
                         </div>
                     </div>
                     <div class="expired">
                         <p>Data de vencimento</p>
-                        <div>
+                        <div :class="{ 'within-deadline': deadlineStatus === 'withinDeadline', 'overdue': deadlineStatus === 'overdue' }">
                             <i class="bi bi-calendar4"></i>
-                            <p>11/20/2020</p>
+                            <p>{{formattedDueDate}}</p>
                         </div>
                     </div>
                     <div class="updated">
                         <p>Modificado em</p>
                         <div>
                             <i class="bi bi-calendar4"></i>
-                            <p>11/20/2020 as 17:50</p>
+                            <p>{{ formattedUpdatedAt }}</p>
                         </div>
                     </div>
                     <div class="idTask">
                         <p>ID da tarefa</p>
-                        <p style="color: black; font-weight: 600;">8</p>
+                        <p style="color: black; font-weight: 600;">{{ task.id }}</p>
                     </div>
                 </div>
             </div>
@@ -92,6 +118,7 @@ export default {
 </template>
 
 <style scoped> 
+
 .container__taskModal{
     position: fixed;
     top: 0;
@@ -128,7 +155,8 @@ export default {
 
 .date {
     display: flex;
-    width: 50%;
+    justify-content: center;
+    width: 15%;
     gap: 5%
 }
 
@@ -200,8 +228,35 @@ export default {
     gap: 5%;
 }
 
-.create div p, .expired div p, .updated div p {
+.create div p {
     color: black;
     font-weight: 600;
+}
+
+.expired div p {
+    font-weight: 600;
+}
+
+.updated div p {
+    color: black;
+    font-weight: 600;
+}
+
+.within-deadline {
+    color: #009488;
+}
+
+.overdue {
+    color: #D31408;
+}
+
+.dateWithinDeadline{
+    background-color: rgba(0, 148, 136, 0.1);
+    color: #009488;
+}
+
+.dateOverdue{
+    background: rgba(211, 20, 8, 0.1);
+    color: #D31408;
 }
 </style>
