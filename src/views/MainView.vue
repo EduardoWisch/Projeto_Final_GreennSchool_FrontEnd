@@ -24,6 +24,7 @@
         showCreateModal: false,
         showEditionModal: false,
         showTaskModal: false,
+        contentPage: 'isEntrance'
       }
     },
     methods: {
@@ -54,18 +55,31 @@
         console.log('Recebido evento para abrir o modal da tarefa:', task);
         this.showTaskModal = true
       },
-      
+      entrance(){
+        this.contentPage = 'isEntrance' 
+        console.log(this.contentPage)
+      },
+      today(){
+        this.contentPage = 'isToday' 
+        console.log(this.contentPage)
+      },
+      expired(){
+        this.contentPage = 'isExpired' 
+        console.log(this.contentPage)
+      },
     }
   }
 </script>
 
 <template>
     <Navbar @openCreateModal="createModalIsOpen"/>
-    <VerticalNavbar />
+    <VerticalNavbar @clickEntrance="entrance()" @clickToday="today()" @clickExpired="expired()"/>
 
     <div class="container__tasks">
-      <h1>Entrada</h1>
-      <TasksAndSubtasks @openCreateModal="createModalIsOpen" @openEditionModal="editionModalIsOpen" @openTaskModal="taskModalIsOpen"/>
+      <h1 v-if="contentPage === 'isEntrance'">Entrada</h1>
+      <h1 v-if="contentPage === 'isToday'">Tarefas de hoje</h1>
+      <h1 v-if="contentPage === 'isExpired'">Vencidas</h1>
+      <TasksAndSubtasks :contentPage="contentPage" @openCreateModal="createModalIsOpen" @openEditionModal="editionModalIsOpen" @openTaskModal="taskModalIsOpen"/>
     </div>
 
     <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed"/>

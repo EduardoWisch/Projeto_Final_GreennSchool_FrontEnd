@@ -10,7 +10,7 @@ import MySubtask from '@/components/MySubtask.vue'
                 isTaskHover: false,
                 editDate: false,
                 taskDataDate: {
-                  due_date: ''
+                due_date: ''
                 },
             }
         },

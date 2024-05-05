@@ -4,15 +4,15 @@
 
 <template>
     <div class="container__navbar">
-        <div class="navbar-itens">
+        <div class="navbar-itens" @click="this.$emit('clickEntrance')">
             <i class="bi bi-inbox"></i>
             <h3>Entrada</h3>
         </div>
-        <div class="navbar-itens">
+        <div class="navbar-itens" @click="this.$emit('clickToday')">
             <i class="bi bi-calendar4"></i>
             <h3>Tarefas de hoje</h3>
         </div>
-        <div class="navbar-itens">
+        <div class="navbar-itens" @click="this.$emit('clickExpired')">
             <i class="bi bi-exclamation-triangle"></i>
             <h3>Vencidos</h3>
         </div>
@@ -39,6 +39,7 @@
 .navbar-itens{
     display: flex;
     gap: 15%;
+    cursor: pointer;
 }
 
 .bi{
