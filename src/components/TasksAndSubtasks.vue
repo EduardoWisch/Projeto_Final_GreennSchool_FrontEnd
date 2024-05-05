@@ -10,11 +10,15 @@
         }
       },
       methods: {
-        open() {
+        openCreate() {
           this.$emit('openCreateModal')
         },
-        openEditionModal(task) {
-          this.$emit('openEditionModal', task)
+        openEditionModal(taskEditar) {
+          this.$emit('openEditionModal', taskEditar)
+        },
+        openTaskModal(taskTask) {
+          this.$emit('openTaskModal', taskTask)
+          console.log('abrindo modal para tarefa', taskTask)
         },
         getTasks() {
           axios.get('task')
@@ -42,8 +46,8 @@
 </script>
 
 <template>
-    <MyTask v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @refreshTask="getTasks()"/>
-  <div class="container__createTask" @click="open()">
+    <MyTask v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @openTaskModal="openTaskModal(task)" @refreshTask="getTasks()"/>
+  <div class="container__createTask" @click="openCreate()">
     <i class="bi bi-plus-lg"></i>
     <p>Criar tarefa</p>
   </div>

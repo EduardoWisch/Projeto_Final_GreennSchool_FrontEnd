@@ -1,16 +1,28 @@
 <script>
-    
+import axios from 'axios'
 export default {
+    data(){
+        return {
+        
+        }
+    },
     props: {
         showTaskModal: {
             type: Boolean,
             required: true
         },
+        taskTask: {
+            type: Object,
+            required: true
+        }
     },
     methods: {
         close() {
             this.$emit('closeTaskModal')
         },
+    },
+    mounted() {
+        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
     }
 }   
 </script>
@@ -32,7 +44,7 @@ export default {
                 <div  class="container__tasks">
                     <i class="bi bi-circle"></i>
                     <div class="content">
-                        <h1>Ir ao mercado</h1>
+                        <h1>{{ taskTask.title }}</h1>
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid sint iste dolorem cupiditate autem cumque harum officia illum labore unde ea quam magnam corporis neque veritatis sed, deleniti quas sapiente?</p>
                         <h2>Subtarefas</h2>
                         <div class="container__subtask">

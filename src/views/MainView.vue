@@ -4,6 +4,7 @@
   import TasksAndSubtasks from '@/components/TasksAndSubtasks.vue';
   import CreateModal from '@/components/CreateModal.vue';
   import EditionModal from '@/components/EditionModal.vue';
+  import TaskModal from '@/components/TaskModal.vue';
   import axios from 'axios';
   
 
@@ -14,13 +15,15 @@
       TasksAndSubtasks,
       CreateModal,
       EditionModal,
+      TaskModal
     },
     data() {
       return {
         tasks: [],
-        selectedTask: null,
+        selectedEditTask: null,
         showCreateModal: false,
-        showEditionModal: false
+        showEditionModal: false,
+        showTaskModal: false,
       }
     },
     methods: {
@@ -36,10 +39,20 @@
         console.log('O modal está fechado')
         this.showEditionModal = false
       },
-      editionModalIsOpen(task) {
-        this.selectedTask = task
+      editionModalIsOpen(taskEditar) {
+        this.selectedEditTask = taskEditar
         console.log('O modal está aberto')
         this.showEditionModal = true
+      },
+      taskModalIsClosed() {
+        console.log('O modal está fechado')
+        this.showTaskModal = false
+      },
+      taskModalIsOpen(taskTask) {
+        this.selectedTask = taskTask
+        console.log('O modal está aberto')
+        console.log('Recebido evento para abrir o modal da tarefa:', taskTask);
+        this.showTaskModal = true
       },
       
     }
@@ -52,11 +65,12 @@
 
     <div class="container__tasks">
       <h1>Entrada</h1>
-      <TasksAndSubtasks @openCreateModal="createModalIsOpen" @openEditionModal="editionModalIsOpen"/>
+      <TasksAndSubtasks @openCreateModal="createModalIsOpen" @openEditionModal="editionModalIsOpen" @openTaskModal="taskModalIsOpen"/>
     </div>
 
     <CreateModal v-model:showCreateModal="showCreateModal" @closeCreateModal="createModalIsClosed"/>
-    <EditionModal v-model:showEditionModal="showEditionModal" :task="selectedTask" @closeEditionModal="editionModalIsClosed"/>
+    <EditionModal v-model:showEditionModal="showEditionModal" :taskEditar="selectedEditTask" @closeEditionModal="editionModalIsClosed"/>
+    <TaskModal v-model:showTaskModal="showTaskModal" :taskTask="selectedTask" @closeTaskModal="taskModalIsClosed" />
 
 </template>
 

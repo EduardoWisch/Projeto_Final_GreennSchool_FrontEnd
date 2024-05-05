@@ -4,7 +4,7 @@ import {format} from 'date-fns'
 import MySubtask from '@/components/MySubtask.vue'
 
     export default {
-        emits: ['openEditionModal'],
+        emits: ['openTaskModal', 'openEditionModal', 'refreshTask'],
         data() {
             return {
                 isTaskHover: false,
@@ -18,11 +18,22 @@ import MySubtask from '@/components/MySubtask.vue'
             task: {
             type: Object,
             required: true
-            }
+            },
+            taskTask: {
+              type: Object,
+              required: true
+            },
+            taskEditar: {
+              type: Object,
+              required: true
+            },
         },
         methods: {
-            open(){
-              this.$emit('openEditionModal', this.task)
+            openEdition(){
+              this.$emit('openEditionModal', this.taske)
+            },
+            openModalTask(){
+              this.$emit('openTaskModal', this.task)
             },
             refresh(){
               this.$emit('refreshTask')
@@ -99,7 +110,7 @@ import MySubtask from '@/components/MySubtask.vue'
         <i class="bi bi-check-circle-fill" @click="updateStatusTask(task)" v-else></i>
     </div>
     <div class="myTask">
-        <h4>{{ task.title }}</h4>
+        <h4 @click="openModalTask()">{{ task.title }}</h4>
         <p>{{task.description}}</p>
         <div class="taskDate" v-if="editDate === true">
           <form class="form-editDate" @submit.prevent="editTaskDate">
@@ -109,12 +120,12 @@ import MySubtask from '@/components/MySubtask.vue'
           </form>
         </div>
         <div class="taskDate" v-else>
-            <i class="bi bi-calendar4"></i>
+            <i class="bi bi-calendar4" @click="openModalTask()"></i>
             <p>{{formatDate(task.due_date)}}</p>
         </div>
     </div>
     <div class="container__icons" v-show="isTaskHover">
-      <i class="bi bi-pencil" @click="open()"></i>
+      <i class="bi bi-pencil" @click="openEdition()"></i>
       <i class="bi bi-calendar4" @click="editDate = true"></i>
       <i class="bi bi-trash" @click="deleteTask(task.id)"></i>
     </div>
@@ -147,6 +158,7 @@ import MySubtask from '@/components/MySubtask.vue'
 .myTask h4 {
   font-size: 20px;
   margin-bottom: 3%;
+  cursor: pointer;
 }
 
 .myTask p {
