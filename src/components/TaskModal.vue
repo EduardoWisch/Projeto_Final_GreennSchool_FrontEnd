@@ -46,6 +46,51 @@ export default {
         close() {
             this.$emit('closeTaskModal')
         },
+        updateStatusTask(task) {
+// Invertendo o status atual
+            const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+// Verificando se o novo status é válido
+            if (newStatus !== 'completed' && newStatus !== 'pending') {
+                console.error('Novo status inválido:', newStatus);
+                return;
+            }
+// Atualização otimista
+            task.status = newStatus;
+// Enviando a solicitação de atualização para o servidor
+            axios.put(`task/${task.id}`, { status: newStatus })
+            .then(() => {
+                console.log('Status alterado')
+// Atualização bem-sucedida, nada precisa ser feito aqui
+            })
+            .catch(error => {
+// Se houver um erro, reverta a atualização
+                console.error('Erro ao atualizar a tarefa:', error);
+                task.status = task.status === 'completed' ? 'pending' : 'completed';
+            });
+        },
+        updateStatusSubtask(subtask) {
+// Invertendo o status atual
+                const newStatus = subtask.status === 'completed' ? 'pending' : 'completed';
+
+// Verificando se o novo status é válido
+                if (newStatus !== 'completed' && newStatus !== 'pending') {
+                    console.error('Novo status inválido:', newStatus);
+                    return;
+                }
+// Atualização otimista
+                subtask.status = newStatus;
+// Enviando a solicitação de atualização para o servidor
+                axios.put(`subtask/${subtask.id}`, { status: newStatus })
+                .then(() => {
+                    console.log('Status alterado com sucesso')
+// Atualização bem-sucedida, nada precisa ser feito aqui
+                })
+                .catch(error => {
+// Se houver um erro, reverta a atualização
+                    console.error('Erro ao atualizar a tarefa:', error);
+                    subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
+                });
+            },
     },
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
@@ -72,14 +117,16 @@ export default {
             </div>
             <div class="container__content">
                 <div  class="container__tasks">
-                    <i class="bi bi-circle"></i>
+                    <i class="bi bi-circle" @click="updateStatusTask(task)" v-if="task.status == 'pending'"></i>
+                    <i class="bi bi-check-circle-fill" @click="updateStatusTask(task)" v-else></i>
                     <div class="content">
                         <h1>{{ task.title }}</h1>
                         <p>{{ task.description }}</p>
                         <h2>Subtarefas</h2>
                         <div class="container__subtask">
                             <div class="subtask"v-for="subtask in task.subtasks" :key="subtask.id">
-                                <i class="bi bi-circle"></i>
+                                <i class="bi bi-circle" @click="updateStatusSubtask(subtask)" v-if="subtask.status == 'pending'"></i>
+                                 <i class="bi bi-check-circle-fill" @click="updateStatusSubtask(subtask)" v-else></i>
                                 <p>{{ subtask.title }}</p>
                             </div>
                         </div>
@@ -118,6 +165,11 @@ export default {
 </template>
 
 <style scoped> 
+
+.bi-check-circle-fill, .bi-circle {
+    color: black;
+    cursor: pointer;
+}
 
 .container__taskModal{
     position: fixed;
