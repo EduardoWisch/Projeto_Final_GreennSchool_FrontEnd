@@ -74,7 +74,6 @@ p{
     height: 100vh;
     overflow: hidden;
     background-color: transparent;
-    /* backdrop-filter: blur(1px); */
     display: flex;
 }
 

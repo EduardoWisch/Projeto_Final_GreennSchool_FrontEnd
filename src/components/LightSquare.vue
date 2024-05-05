@@ -23,7 +23,6 @@
     height: 90vh;
     background-color: #F7F7F7;
     padding: 50px;
-    /* margin-left: 5%; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

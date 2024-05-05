@@ -48,6 +48,6 @@
 .navbar-itens h3{
     font-size: 18px;
     font-weight: 600;
-    white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
+    white-space: nowrap; 
 }
 </style>

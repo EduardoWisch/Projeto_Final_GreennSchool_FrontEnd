@@ -39,24 +39,22 @@ import axios from 'axios';
                 });
             },
             updateStatusSubtask(subtask) {
-// Invertendo o status atual
+
                 const newStatus = subtask.status === 'completed' ? 'pending' : 'completed';
 
-// Verificando se o novo status é válido
+
                 if (newStatus !== 'completed' && newStatus !== 'pending') {
                     console.error('Novo status inválido:', newStatus);
                     return;
                 }
-// Atualização otimista
+
                 subtask.status = newStatus;
-// Enviando a solicitação de atualização para o servidor
+
                 axios.put(`subtask/${subtask.id}`, { status: newStatus })
                 .then(() => {
                     console.log('Status alterado com sucesso')
-// Atualização bem-sucedida, nada precisa ser feito aqui
                 })
                 .catch(error => {
-// Se houver um erro, reverta a atualização
                     console.error('Erro ao atualizar a tarefa:', error);
                     subtask.status = subtask.status === 'completed' ? 'pending' : 'completed';
                 });
@@ -83,10 +81,8 @@ import axios from 'axios';
                 axios.put(`subtask/${this.subtask.id}`, subtaskFields)
                 .then(response => {
                     console.log('Tarefa editada com sucesso:', response.data);
-                    // Emitir evento para fechar o modal de edição
                     this.refresh()
                     this.$emit('closeEditionModal');
-                    // Limpar os campos do formulário de edição
                     this.editTitleSubtask = false
                     this.clearSubtaskTask();
                 })
@@ -95,7 +91,6 @@ import axios from 'axios';
                 });
             },
             clearSubtaskTask() {
-            // Limpar os campos do formulário de edição
                 this.subtaskData.title = '';
                 this.subtaskData.description = '';
             },
@@ -133,13 +128,13 @@ import axios from 'axios';
 <style scoped>
 
 .titleSubtask {
-  overflow: hidden; /* Oculta qualquer texto que não caiba */
-  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .descriptionSubtask {
-    overflow: hidden; /* Oculta qualquer texto que não caiba */
-    text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
     font-size: 14px;
 }
 
@@ -158,9 +153,9 @@ import axios from 'axios';
 }
 
 .mySubtask-title p{
-  white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
-  overflow: hidden; /* Oculta qualquer texto que não caiba */
-  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .mySubtask-container__icons {

@@ -17,17 +17,16 @@
       },
       computed: {
         tasksDueToday() {
-    const today = new Date().toISOString().split('T')[0]; // Data atual no formato 'YYYY-MM-DD'
+    const today = new Date().toISOString().split('T')[0]; 
 
     return this.tasks.filter(task => {
-      const taskDate = new Date(task.due_date).toISOString().split('T')[0]; // Parte da data da data de vencimento da tarefa
-      return taskDate === today;
+      const taskDate = new Date(task.due_date).toISOString().split('T')[0]; 
     });
       },
       tasksExpired() {
-        const today = new Date().toISOString().split('T')[0]; // Data atual no formato 'YYYY-MM-DD'
+        const today = new Date().toISOString().split('T')[0]; 
         return this.tasks.filter(task => {
-          const taskDate = task.due_date.split('T')[0]; // Parte da data da data de vencimento da tarefa
+          const taskDate = task.due_date.split('T')[0]; 
           return taskDate < today;
         });
       }
@@ -47,7 +46,7 @@
           axios.get('task')
           .then(response => {
             this.tasks = response.data.data;
-// Após obter as tarefas, obtenha as subtarefas
+
             this.tasks.forEach(task => {
               this.getSubtasks(task.id);
             });
@@ -60,7 +59,7 @@
           axios.get('task')
           .then(response => {
             this.tasks = response.data.data;
-// Após obter as tarefas, obtenha as subtarefas
+
             this.tasks.forEach(task => {
               this.getSubtasks(task.id);
             });
@@ -86,11 +85,8 @@
 </script>
 
 <template>
-    <!-- Primeiro MyTask mostra todas as tarefas -->
     <MyTask v-if="contentPage === 'isEntrance'" v-for="task in tasks" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @openTaskModal="openTaskModal(task)" @refreshTask="getTasks()"/>
-    <!-- Segundo MyTask mostra as tarefas que vencem hoje -->
     <MyTask v-if="contentPage === 'isToday'" v-for="task in tasksDueToday" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @openTaskModal="openTaskModal(task)" @refreshTask="getTasks()"/>
-    <!-- Terceiro MyTask mostra as tarefas expiradas -->
     <MyTask v-if="contentPage === 'isExpired'" v-for="task in tasksExpired" :key="task.id" :task="task" @openEditionModal="openEditionModal(task)" @openTaskModal="openTaskModal(task)" @refreshTask="getTasks()"/>
   <div class="container__createTask" @click="openCreate()">
     <i class="bi bi-plus-lg"></i>

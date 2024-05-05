@@ -74,7 +74,7 @@
     }
     .container__createTask p{
         font-size: 16px;
-        white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
+        white-space: nowrap; 
     }
 
     .rockImg, .iconImg {

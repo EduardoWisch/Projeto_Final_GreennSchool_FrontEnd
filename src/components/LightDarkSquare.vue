@@ -37,8 +37,6 @@
 .container__lightSquare {
     width: 45vw;
     height: 90vh;
-    /* top: 31px;
-    left: 31px; */
     background-color: #F7F7F7;
     padding: 50px;
     display: flex;

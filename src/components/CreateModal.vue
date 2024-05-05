@@ -43,10 +43,9 @@
                 }
             },
             createTask() {
-                // Verificando se o título está vazio
                 this.checkTitle()
                 this.checkDate()
-                // Se todos os critérios de validação forem atendidos, envie os dados
+
                 axios.post('task', this.taskData)
                 .then((response) => {
                     console.log(response);

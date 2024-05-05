@@ -24,14 +24,14 @@ import MySubtask from '@/components/MySubtask.vue'
           deadlineStatus() {
             const deadlineDate = new Date(this.task.due_date);
             const currentDate = new Date();
-            const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); // Apenas data, sem horário
+            const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); 
             
             if (today > deadlineDate) {
-                return 'overdue'; // Vencido
+                return 'overdue'; 
             } else if (today.getTime() === deadlineDate.getTime()) {
-                return 'today'; // Hoje
+                return 'today'; 
             } else {
-                return 'withinDeadline'; // Dentro do prazo
+                return 'withinDeadline'; 
             }
           }
         },
@@ -45,9 +45,6 @@ import MySubtask from '@/components/MySubtask.vue'
             refresh(){
               this.$emit('refreshTask')
             },
-            // editDate(){
-            //   this.editingDate = true
-            // },
             taskHover() {
                 this.isTaskHover = true
             },
@@ -61,81 +58,71 @@ import MySubtask from '@/components/MySubtask.vue'
               axios.get(`task/${id}`)
               .then(response => {
                 const task = response.data;
-        
-                // Verifica se a tarefa possui subtasks
+      
                 if (task.subtasks.length > 0) {
                     alert('Não é possível excluir esta tarefa porque existem subtasks associadas a ela.');
                 } else {
-                // Se não houver subtasks, excluímos a tarefa
                   axios.delete(`task/${id}`)
                 .then(() => {
                 console.log('Tarefa excluída com sucesso');
                 this.refresh();
-            })
-            .catch(error => {
-                console.error('Erro ao deletar a tarefa:', error);
-                alert('Erro ao excluir a tarefa. Por favor, tente novamente mais tarde.');
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Erro ao obter a tarefa:', error);
-        alert('Erro ao obter a tarefa. Por favor, tente novamente mais tarde.');
-    });
-},
+                })
+                .catch(error => {
+                  console.error('Erro ao deletar a tarefa:', error);
+                  alert('Erro ao excluir a tarefa. Por favor, tente novamente mais tarde.');
+                });
+                }
+              })
+              .catch(error => {
+                console.error('Erro ao obter a tarefa:', error);
+                alert('Erro ao obter a tarefa. Por favor, tente novamente mais tarde.');
+              });
+            },
             updateStatusTask(task) {
-// Invertendo o status atual
+
               const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-// Verificando se o novo status é válido
+
               if (newStatus !== 'completed' && newStatus !== 'pending') {
                 console.error('Novo status inválido:', newStatus);
                 return;
               }
-// Atualização otimista
               task.status = newStatus;
-// Enviando a solicitação de atualização para o servidor
               axios.put(`task/${task.id}`, { status: newStatus })
               .then(() => {
                 console.log('Status alterado com sucesso');
-// Atualizar o status de todas as subtarefas
                 this.updateStatusSubtasks(task.subtasks, newStatus);
               })
               .catch(error => {
-            // Se houver um erro, reverta a atualização
                 console.error('Erro ao atualizar a tarefa:', error);
                 task.status = task.status === 'completed' ? 'pending' : 'completed';
               });
             },
             updateStatusSubtasks(subtasks, newStatus) {
-// Percorra todas as subtarefas e atualize o status
-            subtasks.forEach(subtask => {
-            subtask.status = newStatus;
-        // Enviar solicitação de atualização para o servidor
-            axios.put(`subtask/${subtask.id}`, { status: newStatus })
-            .then(() => {
-              console.log(`Status da subtarefa ${subtask.id} atualizado para ${newStatus}`);
+                subtasks.forEach(subtask => {
+                subtask.status = newStatus;
+                axios.put(`subtask/${subtask.id}`, { status: newStatus })
+              .then(() => {
+                console.log(`Status da subtarefa ${subtask.id} atualizado para ${newStatus}`);
+              })
+              .catch(error => {
+                console.error(`Erro ao atualizar o status da subtarefa ${subtask.id}:`, error);
+                subtask.status = newStatus === 'completed' ? 'pending' : 'completed';
+              });
+            });
+          },
+          editTaskDate(){
+            axios.put(`task/${this.task.id}`, this.taskDataDate)
+            .then(response => {
+              console.log('Data editada com sucesso:', response.data);
+
+              this.editDate = false
+              this.refresh()
             })
             .catch(error => {
-              console.error(`Erro ao atualizar o status da subtarefa ${subtask.id}:`, error);
-// Se houver um erro, reverta a atualização
-              subtask.status = newStatus === 'completed' ? 'pending' : 'completed';
-            });
-          });
-        },
-        editTaskDate(){
-          axios.put(`task/${this.task.id}`, this.taskDataDate)
-          .then(response => {
-            console.log('Data editada com sucesso:', response.data);
-                    // Emitir evento para fechar o modal de edição
-            this.editDate = false
-                    // Limpar os campos do formulário de edição
-            this.refresh()
-          })
-          .catch(error => {
-            console.error('Erro ao editar a tarefa:', error);
-            });
-          }
-        },
+              console.error('Erro ao editar a tarefa:', error);
+              });
+            }
+          },
         components: {
             MySubtask
         }
@@ -200,9 +187,9 @@ import MySubtask from '@/components/MySubtask.vue'
 }
 
 .myTask{
-  white-space: nowrap; /* Impede que o texto quebre para uma nova linha */
-  overflow: hidden; /* Oculta qualquer texto que não caiba */
-  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é muito longo */
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .myTask h4 {

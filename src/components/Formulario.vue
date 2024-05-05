@@ -2,7 +2,6 @@
     import { defineProps } from 'vue';
     import { RouterLink } from 'vue-router';
 
-    // Definindo props usando a nova sintaxe de script
     const props = defineProps({
         formTitle: {
             type: String,

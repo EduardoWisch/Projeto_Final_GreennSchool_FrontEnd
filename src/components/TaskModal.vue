@@ -37,19 +37,18 @@ export default {
             return `${formattedDate} às ${hour}`;
         },
         deadlineStatus() {
-            // Obtém a data de vencimento da tarefa e remove o horário
+
             const deadlineDate = new Date(this.task.due_date);
-            deadlineDate.setHours(0, 0, 0, 0); // Define o horário para meia-noite
+            deadlineDate.setHours(0, 0, 0, 0); 
             
-            // Obtém a data atual e remove o horário
+ 
             const currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0); // Define o horário para meia-noite
+            currentDate.setHours(0, 0, 0, 0); 
             
-            // Compara as datas
             if (currentDate > deadlineDate) {
-                return 'overdue'; // Vencido
+                return 'overdue'; 
             } else {
-                return 'withinDeadline'; // Dentro do prazo
+                return 'withinDeadline'; 
             }
         }
     },
@@ -58,40 +57,40 @@ export default {
             this.$emit('closeTaskModal')
         },
         updateStatusTask(task) {
-// Invertendo o status atual
+
               const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-// Verificando se o novo status é válido
+
               if (newStatus !== 'completed' && newStatus !== 'pending') {
                 console.error('Novo status inválido:', newStatus);
                 return;
               }
-// Atualização otimista
+
               task.status = newStatus;
-// Enviando a solicitação de atualização para o servidor
+
               axios.put(`task/${task.id}`, { status: newStatus })
               .then(() => {
                 console.log('Status alterado com sucesso');
-// Atualizar o status de todas as subtarefas
+
                 this.updateStatusSubtasks(task.subtasks, newStatus);
               })
               .catch(error => {
-            // Se houver um erro, reverta a atualização
+
                 console.error('Erro ao atualizar a tarefa:', error);
                 task.status = task.status === 'completed' ? 'pending' : 'completed';
               });
             },
             updateStatusSubtasks(subtasks, newStatus) {
-// Percorra todas as subtarefas e atualize o status
+
             subtasks.forEach(subtask => {
             subtask.status = newStatus;
-        // Enviar solicitação de atualização para o servidor
+   
             axios.put(`subtask/${subtask.id}`, { status: newStatus })
             .then(() => {
               console.log(`Status da subtarefa ${subtask.id} atualizado para ${newStatus}`);
             })
             .catch(error => {
               console.error(`Erro ao atualizar o status da subtarefa ${subtask.id}:`, error);
-// Se houver um erro, reverta a atualização
+
               subtask.status = newStatus === 'completed' ? 'pending' : 'completed';
             });
           });

@@ -17,13 +17,10 @@ import axios from 'axios';
                 required: true
             },
             task: {
-                type: Object, // Defina o tipo da propriedade como um objeto
+                type: Object, 
                 required: true
             },
-            // taskEditar: {
-            //     type: Object,
-            //     required: true
-            // }
+
         },
         methods: {
             refresh(){
@@ -40,7 +37,7 @@ import axios from 'axios';
             },
             editTask() {
                 this.checkTitle()
-                // Objeto para armazenar apenas os campos editados
+
                 const editedFields = {
                     title: this.editedTask.title !== '' ? this.editedTask.title : undefined,
                     description: this.editedTask.description !== '' ? this.editedTask.description : undefined,
@@ -49,10 +46,8 @@ import axios from 'axios';
                 axios.put(`task/${this.task.id}`, editedFields)
                 .then(response => {
                     console.log('Tarefa editada com sucesso:', response.data);
-                    // Emitir evento para fechar o modal de edição
                     this.refresh()
                     this.$emit('closeEditionModal');
-                    // Limpar os campos do formulário de edição
                     this.clearEditedTask();
                 })
                 .catch(error => {
@@ -60,7 +55,6 @@ import axios from 'axios';
                 });
             },
             clearEditedTask() {
-            // Limpar os campos do formulário de edição
                 this.editedTask.title = '';
                 this.editedTask.description = '';
                 this.editedTask.due_date = '';

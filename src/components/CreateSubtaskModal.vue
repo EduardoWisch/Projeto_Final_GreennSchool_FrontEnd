@@ -9,7 +9,7 @@ export default {
         title: '',
         description: '',
         due_date: ''
-        // Adicione outros campos de subtarefa conforme necessário
+ 
       }
     };
   },
@@ -19,11 +19,11 @@ export default {
       required: true
     },
     id_task: {
-      type: Number, // Supondo que taskId seja o ID da tarefa à qual a subtarefa está associada
+      type: Number, 
       required: true
     },
     taskDueDate: {
-      type: String, // Suponha que a data de vencimento seja uma string formatada
+      type: String,
       required: true
     }
   },
@@ -50,23 +50,20 @@ export default {
     createSubtask() {
       this.checkTitle()
       this.checkDescription()
-      // Antes de criar a subtarefa, atribua o ID da tarefa ao objeto subtaskData
+
       this.subtaskData.id_task = this.id_task;
-      // Defina a data de vencimento da subtarefa como a data de vencimento da tarefa
+
       this.subtaskData.due_date = this.taskDueDate;
 
-      // Enviar solicitação para criar uma nova subtarefa
+
       axios.post(`subtask`, this.subtaskData)
         .then(response => {
           console.log('Subtarefa criada com sucesso:', response.data);
-          // Emitir um evento para notificar o componente pai sobre a criação da subtarefa
           this.$emit('subtaskCreated', response.data);
-          // Fechar o modal de criação de subtarefa
           this.$emit('closeCreateSubtaskModal');
         })
         .catch(error => {
           console.error('Erro ao criar subtarefa:', error);
-          // Trate os erros adequadamente (exibir mensagem de erro, etc.)
         });
     },
     mounted() {
