@@ -35,12 +35,12 @@
                     alert('Por favor, selecione uma data para a tarefa.');
                     return;
                 }
-                const selectedDate = new Date(this.taskData.due_date);
-                const currentDate = new Date();
-                if (selectedDate < currentDate) {
-                    alert('A data selecionada para a tarefa deve ser no futuro.');
-                    return;
-                }
+                // const selectedDate = new Date(this.taskData.due_date);
+                // const currentDate = new Date();
+                // if (currentDate > selectedDate) {
+                //     alert('A data selecionada para a tarefa deve ser no futuro.');
+                //     return;
+                // }
             },
             createTask() {
                 this.checkTitle()
